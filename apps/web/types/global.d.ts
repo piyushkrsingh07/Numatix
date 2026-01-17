@@ -12,4 +12,16 @@ declare global {
         binanceApiKey:string,
         binanceSecretKey:string
     }
+
+    type FormInputProps ={
+        name:string,
+        label:string,
+        placeholder:string,
+        type:string?,
+    
+        
+        disabled:boolean,
+        value:string
+
+    }
 }
