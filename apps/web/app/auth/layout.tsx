@@ -6,7 +6,8 @@ interface AuthProps {
 
 export default async function AuthLayout({children}:AuthProps){
   return (
-  <div className="h-screen flex bg-main"> <div className="w-1/2 relative h-full"> 
+  <div className="h-screen flex bg-main"> 
+  <div className="w-1/2 relative h-full"> 
   <Image
    src="/left-section.svg"
    alt="Left image" 
