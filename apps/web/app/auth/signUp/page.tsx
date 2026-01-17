@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react'
 import InputField from '@/components/forms/InputField'
 import { useRouter } from 'next/navigation'
 import { Separator } from '@/components/ui/separator'
+import { useTheme } from '@/hooks/useTheme'
 
 const signUpSchema=z.object({
     email:z.string().trim().min(4,{message:"Invalid email"}).max(30,{message:"Invalid email"}),
@@ -43,6 +44,7 @@ const SignUp = () => {
     })
 
     const router=useRouter()
+    const {isDark,setIsDark}=useTheme()
 
     const onSubmit:(data:SignUpFormData)=>Promise<void>=async(data:SignUpFormData)=>{
        try{
@@ -53,10 +55,10 @@ const SignUp = () => {
     }
     
   return (
-    <Card className='w-full h-full bg-black/10 pt-40'>
+    <Card className={`w-full h-full  pt-40 ${isDark?'bg-black':'bg-black/10'}`} >
         <CardHeader className='px-18'>
-            <CardTitle className='text-2xl'> Sign Up</CardTitle>
-            <CardDescription> Sign Up to access your account</CardDescription>
+            <CardTitle className={`text-3xl ${isDark?'text-white':'text-black'}`}> Sign Up</CardTitle>
+            <CardDescription className={`${isDark?'text-white':'text-black'}`}> Sign Up to access your account</CardDescription>
         </CardHeader>
         <CardContent className=' w-full px-18'>
         <form  onSubmit={handleSubmit(onSubmit)} className='space-y-2 flex flex-col gap-y-5  '>
@@ -67,7 +69,7 @@ const SignUp = () => {
               placeholder="Enter your email"
               register={register}
               error={errors.email}
-          
+               
               disabled={isSubmitting}
                
             />
@@ -103,7 +105,7 @@ const SignUp = () => {
       <InputField
               name="binanceSecretKey"
               label="BinanceSecretKey"
-              placeholder="Enter your binanceSecretKey"
+              placeholder="Enter your binance Secret Key"
               register={register}
               error={errors.binanceSecretKey}
               type="password"
@@ -135,7 +137,7 @@ const SignUp = () => {
         </form>
               <Separator className='my-5'/>
 
-      <p className='text-sm text-muted-forground mt-4'>
+      <p className={`text-sm text-muted-forground mt-4 ${isDark?'text-white':'text-black'}`}>
         Already have an account ? {' '}
         <span className='text-sky-600 hover:underline cursor-pointer' onClick={()=>router.push('/auth/signIn')}>Sign In</span>
       </p>
