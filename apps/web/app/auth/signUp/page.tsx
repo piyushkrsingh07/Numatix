@@ -81,7 +81,7 @@ const SignUp = () => {
               label="Password"
               placeholder="Enter your password"
               register={register}
-              error={errors.email}
+              error={errors.password}
             type="password"
               disabled={isSubmitting}
                
