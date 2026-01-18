@@ -4,7 +4,7 @@
     "private": true,
      "type": "module",
     "scripts": {
-        "dev": "nodemon --watch src --exec tsx src/server.ts", 
+        "dev": "nodemon --watch src --exec npx tsx src/server.ts", 
         "build": "tsc",
         "start": "node dist/server.js"
     },
@@ -16,7 +16,7 @@
         "typescript": "^5.9.2"
     },
     "dependencies": {
-        "@repo/db": "^1.0.0",
+        "@repo/db": "*",
         "express": "^5.2.1"
     }
 }
