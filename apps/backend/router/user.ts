@@ -1,8 +1,9 @@
 import { Router } from "express";
-import register from "../controllers/userAuth.js";
+import authController from "../controllers/userAuth.js";
 
 const app:Router = Router()
 
-app.post('/signup',register)
+app.post('/register',authController.register)
+app.post('/login',authController.login)
 
 export default app
