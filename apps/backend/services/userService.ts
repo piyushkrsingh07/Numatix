@@ -2,7 +2,7 @@ import { prisma } from "@repo/db";
 import { SignInData, SignupData } from "../validators/userSchema.js";
 import bcrypt from 'bcrypt'
 import { createJwt } from "../utils/authUtils.js";
-import { email } from "zod";
+
 import ClientError from "../errors/clientErrors.js";
 import { StatusCodes } from "http-status-codes";
 

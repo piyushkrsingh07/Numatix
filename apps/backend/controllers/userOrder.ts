@@ -4,6 +4,8 @@ import { validate } from "../validators/zodValidator.js";
 import { OrderService } from "../services/orderService.js";
 import { OrderSchema } from "../validators/orderSchema.js";
 import type { User } from "../types/user.js";
+import { RedisService } from "../services/redisService.js";
+
 
 
 const postOrder=async(req:Request,res:Response)=>{
@@ -17,8 +19,15 @@ const postOrder=async(req:Request,res:Response)=>{
         console.log(user,"see user in controller")
         const order=await OrderService(validateBody,user)
 
-        console.log(order,"dekho order")
-       return res.status(200).json({message:`Order in ${order.status}`,data:order})
+               console.log(order,"dekho order")
+
+         
+        const redisPubllish=await RedisService(order)
+
+        console.log(redisPubllish,'dekho publish finally')
+
+
+       return res.status(200).json({message:`Order in ${order.status}`,data:{order:order.orderId,status:order.status}})
 
        
     }catch(error:any){
