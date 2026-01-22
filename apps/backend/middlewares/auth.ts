@@ -6,12 +6,7 @@ import dotenv from 'dotenv'
 import { prisma } from "@repo/db";
 dotenv.config();
 
-interface User {
-  email:string;
-  passsword?:string;
-  binanceApiKey:string;
-  binanceSecretKey:string
-}
+
 
 
 const authentication=async(req:Request,res:Response,next:NextFunction)=>{
@@ -51,6 +46,7 @@ const authentication=async(req:Request,res:Response,next:NextFunction)=>{
        }
 
        req.user={
+        id:userData?.id,
         email:userData?.email,
         binanceApiKey:userData?.binanceApiKey,
         binanceSecretKey:userData?.binanceSecretKey

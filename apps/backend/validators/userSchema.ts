@@ -25,7 +25,11 @@ export const userSignInSchema=z.object({
   .regex(/[0-9]/, { message: "Must contain at least one number" })
   .regex(/[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/, { message: "Must contain at least one special character" })
 })
+
+
 export type SignupData = z.infer<typeof userSignUpSchema>;
 
 export type SignInData = z.infer <typeof userSignInSchema>;
+
+
 
