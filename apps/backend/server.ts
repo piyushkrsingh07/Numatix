@@ -4,6 +4,7 @@ import express,{Request,Response} from 'express'
 import cookieparser from 'cookie-parser'
 import cors from "cors"
 import AuthRoutes from './router/user.js'
+import OrderRoutes from './router/order.js'
 dotenv.config();
 
 const app = express()
@@ -18,6 +19,7 @@ app.get('/',(req:Request,res:Response):Response=>{
 })
 
 app.use('/auth',AuthRoutes)
+app.use('/api/trading',OrderRoutes)
 
 const port:number = Number(process.env.PORT) || 5000
 
