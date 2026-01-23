@@ -68,8 +68,8 @@ model OrderEvent {
   status    OrderStatus
   price     Decimal?    @db.Decimal(18, 8)
   quantity  Decimal     @db.Decimal(18, 8)
-  timestamp DateTime    // event time (from exchange / engine)
-  createdAt DateTime    @default(now()) // stored time in DB
+  timestamp DateTime    
+  createdAt DateTime    @default(now()) 
 
   command   OrderCommand @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
 
