@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'
 import { prisma } from "@repo/db";
 import { SignInData, SignupData } from "../validators/userSchema.js";
 import bcrypt from 'bcrypt'
@@ -5,6 +6,9 @@ import { createJwt } from "../utils/authUtils.js";
 
 import ClientError from "../errors/clientErrors.js";
 import { StatusCodes } from "http-status-codes";
+import Cryptr from "cryptr";
+dotenv.config();
+const cryptr=new Cryptr(process.env.CRYPTR_SECRET as string,{encoding:'base64',pbkdf2Iterations:10000,saltLength:30})
 
 export const signupService =async(data:SignupData)=>{
    try {
@@ -16,9 +20,13 @@ export const signupService =async(data:SignupData)=>{
         
     const salt=await bcrypt.genSaltSync(10)
         const hashedPassword = await bcrypt.hashSync(password,salt)
-        const hashedApiKey = await bcrypt.hashSync(binanceApiKey,salt)
-        const hashedSecretkey = await bcrypt.hashSync(binanceSecretKey,salt)
+        // const hashedApiKey = await bcrypt.hashSync(binanceApiKey,salt)
+        // const hashedSecretkey = await bcrypt.hashSync(binanceSecretKey,salt)
+        const hashedApiKey=cryptr.encrypt(JSON.stringify(binanceApiKey))
+        console.log(hashedApiKey,'see hashed key')
 
+        const hashedSecretkey=cryptr.encrypt(JSON.stringify(binanceSecretKey))
+        console.log(hashedSecretkey,'see secret key')
       const newUser=await prisma.user.create({
         data:{
           email,

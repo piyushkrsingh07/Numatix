@@ -1,8 +1,9 @@
 import { prisma } from "@repo/db"
+import type { User } from "../types/user"
 
 
 
-export const dbResponse=async(redisResponse:Record<string,string|number>)=>{
+export const dbResponse=async(redisResponse:Record<string,string|number>): Promise<User | null>=>{
    try{
        const {userId}=redisResponse
 
