@@ -25,14 +25,7 @@ app.get('/',(req:Request,res:Response):Response=>{
 
 async function start(){
     try{
-    const redisResponse:RedisOrderCommand =   await  RedisService() // this service subscribe to redis commands
-
-    console.log(redisResponse,typeof redisResponse,'dekho redis response')
-      const db:User|null=await dbResponse(redisResponse )
-       if(!db ) return
-      console.log(db,'see db repsonse')
-      const executeOrder=OrderExecution(db,redisResponse.timeStamp)
-
+     await  RedisService() // this service subscribe to redis commands
 
     }catch(error){
       console.log(error)
