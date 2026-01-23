@@ -8,6 +8,7 @@ import { RedisService } from "./services/redis.js";
 import { dbResponse } from "./services/dbService.js"
 import { OrderExecution } from "./services/orderExecution.js"
 import  type { User } from "./types/user.js"
+import { RedisOrderCommand } from "./types/order.js"
 
 dotenv.config();
 
@@ -24,12 +25,13 @@ app.get('/',(req:Request,res:Response):Response=>{
 
 async function start(){
     try{
-    const redisResponse =   await  RedisService() // this service subscribe to redis commands
+    const redisResponse:RedisOrderCommand =   await  RedisService() // this service subscribe to redis commands
+
     console.log(redisResponse,typeof redisResponse,'dekho redis response')
-      const db=await dbResponse(redisResponse as Record<string,string|number>)
-       if(!db) return
+      const db:User|null=await dbResponse(redisResponse )
+       if(!db ) return
       console.log(db,'see db repsonse')
-      const executeOrder=OrderExecution(db)
+      const executeOrder=OrderExecution(db,redisResponse.timeStamp)
 
 
     }catch(error){

@@ -15,3 +15,15 @@ export enum OrderStatus {
   CANCELLED = "CANCELLED",
   FAILED = "FAILED"
 }
+
+export interface RedisOrderCommand {
+  orderId: string;
+  userId: number;
+  symbol: string;
+  side: OrderSide;
+  type: OrderType;
+  quantity: string;
+  price?: string;
+  status?: OrderStatus;
+  timeStamp: string;
+}
