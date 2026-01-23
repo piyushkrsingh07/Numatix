@@ -21,7 +21,7 @@ redisConfig.sub.on('message',async(channel:string,message:string)=>{
        if(!db ) return
       console.log(db,'see db repsonse')
       
-      const executeOrder=await OrderExecution(db,redisResponse.timeStamp)
+      const executeOrder=await OrderExecution(db,redisResponse)
        console.log(executeOrder,'see execute order')
        }
     

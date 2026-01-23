@@ -23,6 +23,8 @@ export interface RedisOrderCommand {
   side: OrderSide;
   type: OrderType;
   quantity: string;
+  stopPrice?:string;
+  timeInForce?:string;
   price?: string;
   status?: OrderStatus;
   timeStamp: string;
