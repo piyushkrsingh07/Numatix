@@ -17,6 +17,7 @@ export const OrderService=(data:OrderData,user:User)=>{
     type,
     quantity,
     price,
+    status:"PENDING",
     timeStamp:new Date().toISOString()
  }
 

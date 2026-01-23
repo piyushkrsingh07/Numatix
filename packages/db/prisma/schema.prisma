@@ -13,6 +13,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderType {
+  MARKET
+  LIMIT
+}
+
+enum OrderStatus {
+  PENDING
+  SUBMITTED
+  EXECUTED
+  PARTIALLY_FILLED
+  CANCELLED
+  FAILED
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
@@ -21,4 +41,42 @@ model User {
   binanceSecretKey String
 }
 
+model OrderCommand {
+  id        Int         @id @default(autoincrement())
+  userId    Int
+  orderId   String      @unique
+  symbol    String
+  side      OrderSide
+  type      OrderType
+  quantity  Decimal     @db.Decimal(18, 8)
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+
+  events    OrderEvent[]
+
+  @@map("order_commands")
+  @@index([userId])
+  @@index([orderId])
+  @@index([symbol])
+  @@index([status])
+}
+
+model OrderEvent {
+  id        Int         @id @default(autoincrement())
+  orderId   String
+  userId    Int
+  status    OrderStatus
+  price     Decimal?    @db.Decimal(18, 8)
+  quantity  Decimal     @db.Decimal(18, 8)
+  timestamp DateTime    // event time (from exchange / engine)
+  createdAt DateTime    @default(now()) // stored time in DB
+
+  command   OrderCommand @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+
+  @@map("order_events")
+  @@index([orderId])
+  @@index([userId])
+  @@index([status])
+  @@index([timestamp])
+}
 
