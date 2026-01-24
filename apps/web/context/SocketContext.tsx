@@ -16,7 +16,7 @@ export const SocketContextProvider=({children}:SocketProviderProps)=>{
  const [socketInstance,setSocketInstance]=useState<Socket|null>(null)
 
  useEffect(()=>{
-const socket=io('http://localhost:1000',{
+const socket=io('ws://localhost:1000',{
     auth:{
         token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJwaXl1c2gwMjA0MEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRYNzgyQVdnRVczVmprWUhzdlhXekJ1NFV2SmVybnFnVzN2ME1aQllRa3lER2N5MlVCNGN6UyIsImlhdCI6MTc2OTI1NDMxMiwiZXhwIjoxNzY5MjcyMzEyfQ._NUMcmoWkPOsk9D114MWoCZydwSZD5HrF3AnnsJTjC4"
     }
