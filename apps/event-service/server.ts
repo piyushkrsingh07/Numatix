@@ -5,7 +5,7 @@ import http from 'http'
 import express,{Request,Response} from 'express'
 import cookieparser from 'cookie-parser'
 import cors from "cors"
-import { channel } from "diagnostics_channel"
+
 import { emitOrderToSocket, initializeSocket } from "./services/socket"
 
 
@@ -22,13 +22,13 @@ app.get('/',(req:Request,res:Response):Response=>{
     return res.send("event Execution is Live!")
 })
 
-const port:number = Number(process.env.PORT) || 4010
+const port:number =  Number(process.env.PORT) || 1000
 
 
 const server=http.createServer(app)
 
     initializeSocket(server)
-async function start(){
+async function start(){ 
     try{
  const redisSub=await redisConfig.sub.subscribe('events:order:status')
  console.log(redisSub,'dekho redis sub')
