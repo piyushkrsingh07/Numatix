@@ -13,7 +13,11 @@ export enum OrderStatus {
   SUBMITTED = "SUBMITTED",
   EXECUTED = "EXECUTED",
   CANCELLED = "CANCELLED",
-  FAILED = "FAILED"
+  FAILED = "FAILED",
+  FILLED="FILLED",
+  REJECTED="REJECTED",
+  PARTIALLY_FILLED="PARTIALLY_FILLED"
+
 }
 
 export interface RedisOrderCommand {
@@ -27,5 +31,5 @@ export interface RedisOrderCommand {
   timeInForce?:string;
   price?: string;
   status?: OrderStatus;
-  timeStamp: string;
+  timestamp: string;
 }
