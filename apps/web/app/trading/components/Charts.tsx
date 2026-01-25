@@ -31,7 +31,7 @@ const Charts = ({
   const [loading, setLoading] = useState(false)
   const [period, setPeriod] = useState(initialPeriod)
   const [ohlcData, setOhlcData] = useState<ChartCandle[]>([])
-  const [isPending, setTransition] = useTransition()
+
   const lastCandleTimeRef = useRef<UTCTimestamp | null>(null);
 
 
@@ -39,12 +39,23 @@ const Charts = ({
 
 
 
-  const { ohlcv, isConnected } = useBinanceWebSocket({
+  const { ohlcv, isConnected ,currentPrice} = useBinanceWebSocket({
     symbol: coinId,
  interval:period,
   });
-  
 
+  const open = Number(currentPrice?.o);
+const close = Number(currentPrice?.c);
+  
+const chartCurrentPrice =
+  Number.isFinite(open) && Number.isFinite(close) && open !== 0
+    ? Number((((close - open) / open) * 100).toFixed(3))
+    : 0;
+
+const formatted =
+  chartCurrentPrice >= 0
+    ? `+${chartCurrentPrice}%`
+    : `${chartCurrentPrice}%`;
 
 
 
@@ -188,6 +199,8 @@ const showTime =
               {label}
             </button>
           ))}
+          <div>${currentPrice?.c}</div>
+          <div className={formatted?'text-green-700':'text-red-700'}>{formatted}</div>
         </div>
       </div>
 

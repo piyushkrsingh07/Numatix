@@ -22,6 +22,7 @@ export function useBinanceWebSocket({ symbol, interval }: Props) {
   const [ohlcv, setOhlcv] = useState<[number, number, number, number, number] | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const prevSocketRef=useRef<WebSocket|null>(null)
+  const [currentPrice,setCurrentPrice]=useState<Record<string,any>>({})
   useEffect(() => {
     if (!symbol || !interval) return;
       
@@ -43,7 +44,7 @@ console.log(socketRef.current,'jb change hua')
     ws.onmessage = (event) => {
       // console.log(event,'dekho event')
       const data: KlineMessage = JSON.parse(event.data);
-      // console.log(data,'dekh data')
+      console.log(data,'dekh data')
       const k = data.k;
 
       setOhlcv([
@@ -53,6 +54,7 @@ console.log(socketRef.current,'jb change hua')
         +k.l,
         +k.c,
       ]);
+      setCurrentPrice(data.k)
     };
 
     ws.onerror = (e) => {
@@ -82,5 +84,5 @@ ws.close()
     };
   }, [symbol, interval]);
 
-  return { ohlcv, isConnected};
+  return { ohlcv, isConnected,currentPrice};
 }
