@@ -18,7 +18,7 @@ export const SocketContextProvider=({children}:SocketProviderProps)=>{
  useEffect(()=>{
 const socket=io('ws://localhost:1000',{
     auth:{
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJwaXl1c2gwMjA0MEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRYNzgyQVdnRVczVmprWUhzdlhXekJ1NFV2SmVybnFnVzN2ME1aQllRa3lER2N5MlVCNGN6UyIsImlhdCI6MTc2OTI1NDMxMiwiZXhwIjoxNzY5MjcyMzEyfQ._NUMcmoWkPOsk9D114MWoCZydwSZD5HrF3AnnsJTjC4"
+        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJwaXl1c2gwMjA0MEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRYNzgyQVdnRVczVmprWUhzdlhXekJ1NFV2SmVybnFnVzN2ME1aQllRa3lER2N5MlVCNGN6UyIsImlhdCI6MTc2OTMzNzc2MiwiZXhwIjoxNzY5MzU1NzYyfQ.YHv6r9hyLEeswp8SJ8JJfveRtuC_xygTDZA4wJS6SO0"
     }
 })
 setSocketInstance(socket)

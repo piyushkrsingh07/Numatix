@@ -1,18 +1,11 @@
 'use client'
-import React, { startTransition, useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import React, {  useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import axios from 'axios'
-import { BINANCE_PERIOD_MAP, getChartConfig, PERIOD_BUTTONS, getCandlestickConfig } from '@/constant'
+import { BINANCE_PERIOD_MAP, getChartConfig, PERIOD_BUTTONS, getCandlestickConfig, NEW_PERIOD_BUTTONS, NEW_BINANCE_PERIOD_MAP } from '@/constant'
 import { BinanceKline, CandlestickChartProps, ChartCandle, Period } from '@/types/charts';
 import { CandlestickSeries, createChart, IChartApi, ISeriesApi, UTCTimestamp } from 'lightweight-charts';
 import { useBinanceWebSocket } from '@/hooks/useWebSocket';
 
-type CandlestickData = {
-  time: number;   // unix seconds (NOT ms)
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-};
 
 const transformKlinesToChartData = (
   klines: BinanceKline[]
@@ -29,7 +22,7 @@ const Charts = ({
   data,
   coinId,
   height = 360,
-  initialPeriod = 'daily'
+  initialPeriod = '1s'
 }: CandlestickChartProps) => {
   const chartContainerRef = useRef<HTMLDivElement | null>(null)
   const chartRef = useRef<IChartApi | null>(null)
@@ -42,40 +35,30 @@ const Charts = ({
   const lastCandleTimeRef = useRef<UTCTimestamp | null>(null);
 
 
-  // Get interval from period
-  const getIntervalFromPeriod = (selectedPeriod: Period): '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d' | '1w' | '1M' => {
-    const intervalMap: Record<Period, '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d' | '1w' | '1M'> = {
-      'daily': '1h',
-      'weekly': '4h',
-      'monthly': '1d',
-      '3months': '1d',
-      '6months': '1w',
-      'yearly': '1w',
-      'max': '1M',
-    };
-    return intervalMap[selectedPeriod];
-  };
-const interval = useMemo(
-  () => getIntervalFromPeriod(period),
-  [period]
-);
 
-  // WebSocket hook for real-time data
+
+
+
   const { ohlcv, isConnected } = useBinanceWebSocket({
     symbol: coinId,
- interval,
+ interval:period,
   });
+  
+
+
+
+
 
   const fetchOhlcData = async (selectedPeriod: Period) => {
     try {
-      const { interval, limit } = BINANCE_PERIOD_MAP[selectedPeriod];
+      const {  limit } = NEW_BINANCE_PERIOD_MAP[selectedPeriod];
 
       const response = await axios.get(
         'https://testnet.binance.vision/api/v3/klines',
         {
           params: {
             symbol: coinId,
-            interval,
+            interval:selectedPeriod,
             limit,
           },
         }
@@ -85,7 +68,15 @@ const interval = useMemo(
       const chartData = transformKlinesToChartData(rawData);
 
       setOhlcData(chartData);
-    } catch (error) {
+        if (candleSeriesRef.current) {
+      candleSeriesRef.current.setData(chartData);
+      const lastCandle = chartData.at(-1);
+      console.log('dekho last time')
+      if (lastCandle) lastCandleTimeRef.current = lastCandle.time;
+    }
+  }
+
+    catch (error) {
       console.error('Failed to fetch OHLC data', error);
     }
   };
@@ -94,19 +85,16 @@ const interval = useMemo(
     fetchOhlcData(period);
   }, [period]);
 
-  // Update chart with real-time WebSocket data
+ 
 useEffect(() => {
   if (!candleSeriesRef.current || !ohlcv || !isConnected) return;
 
   const [timestamp, open, high, low, close] = ohlcv;
 
   const candleTime = (timestamp / 1000) as UTCTimestamp;
-  const lastTime = lastCandleTimeRef.current;
+  if (lastCandleTimeRef.current && candleTime <= lastCandleTimeRef.current) return;
 
-  // 🚨 HARD RULE: never update older candles
-  if (lastTime && candleTime < lastTime) {
-    return;
-  }
+
 
   const candle: ChartCandle = {
     time: candleTime,
@@ -124,10 +112,10 @@ useEffect(() => {
 
   const handlePeriodChange = (newPeriod: Period) => {
     if (newPeriod === period) return
-    startTransition(async () => {
+ 
       setPeriod(newPeriod)
-      await fetchOhlcData(newPeriod)
-    })
+      
+  
   }
 
 useEffect(() => {
@@ -149,7 +137,10 @@ useEffect(() => {
     const container = chartContainerRef.current;
     if (!container) return;
 
-    const showTime = ['daily', 'weekly', 'monthly'].includes(period);
+const showTime =
+  period.endsWith('d') ||
+  period.endsWith('w') ||
+  period.endsWith('M');
 
     const chart = createChart(container, {
       ...getChartConfig(height, showTime),
@@ -181,13 +172,13 @@ useEffect(() => {
   }, [height]);
 
   return (
-    <div id="candlestick-chart">
+    <div id="w-full h-full">
       <div className='chart-header'>
         <div className='button-group'>
           <span className='text-sm mx-2 font-medium text-purple-50'>
             Period: {isConnected && <span className='text-green-400 ml-2'>● Live</span>}
           </span>
-          {PERIOD_BUTTONS.map(({ value, label }) => (
+          {NEW_PERIOD_BUTTONS.map(({ value, label }) => (
             <button
               key={value}
               className={period === value ? 'config-button-active bg-green-600' : 'config-button'}

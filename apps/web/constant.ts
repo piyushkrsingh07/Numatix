@@ -6,6 +6,7 @@ import {
 } from 'lightweight-charts';
 
 type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly' | 'max';
+type NewPeriod='1s'|'1m'|'3m'|'5m'|'15m'|'30m'|'1d'|'1w'|'1h'
 
 export const navItems = [
   {
@@ -93,14 +94,14 @@ export const getChartConfig = (
   },
 });
 
-type BinanceInterval =
-  | '1m'
-  | '5m'
-  | '15m'
-  | '1h'
-  | '4h'
-  | '1d'
-  | '1w';
+export type BinanceInterval =
+  | '1s'
+  | '1m' | '3m' | '5m' | '15m' | '30m'
+  | '1h' | '2h' | '4h' | '6h' | '8h' | '12h'
+  | '1d' | '3d'
+  | '1w'
+  | '1M';
+
 
 export const BINANCE_PERIOD_MAP: Record<
   Period,
@@ -125,6 +126,33 @@ export const PERIOD_BUTTONS: { value: Period; label: string }[] = [
   { value: 'yearly', label: '1Y' },
   { value: 'max', label: 'Max' },
 ];
+
+export const NEW_BINANCE_PERIOD_MAP: Record<
+  NewPeriod,
+  { interval: BinanceInterval; limit: number }
+> = {
+  '1s':  { interval: '1s',  limit: 1000 }, // ~16 minutes
+  '1m':  { interval: '1m',  limit: 1000 }, // ~16 hours
+  '3m':  { interval: '3m',  limit: 1000 }, // ~50 hours
+  '5m':  { interval: '5m',  limit: 1000 }, // ~3.5 days
+  '15m': { interval: '15m', limit: 1000 }, // ~10 days
+  '30m': { interval: '30m', limit: 1000 }, // ~20 days
+   '1h': { interval: '1h', limit: 1000 },
+   '1d': { interval: '1d', limit: 1000 },
+   '1w':{ interval: '1w', limit: 1000 },
+};
+
+export const NEW_PERIOD_BUTTONS:{value:NewPeriod;label:string}[]=[
+  {value:'1s',label:'1s'},
+  {value:'1m',label:'1m'},
+  {value:'3m',label:'3m'},
+   {value:'5m',label:'5m'},
+    {value:'15m',label:'15m'},
+  {value:'30m',label:'30m'},
+  {value:'1h',label:'1h'},
+  {value:'1d',label:'1d'},
+  {value:'1w',label:'1w'}
+]
 
 export const LIVE_INTERVAL_BUTTONS: { value: '1s' | '1m'; label: string }[] = [
   { value: '1s', label: '1s' },

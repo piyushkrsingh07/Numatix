@@ -65,7 +65,8 @@ export interface UseBinanceWebSocketReturn {
   isConnected: boolean;
 }
 
-export type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly' | 'max';
+// export type Period = 'daily' | 'weekly' | 'monthly' | '3months' | '6months' | 'yearly' | 'max';
+export type Period='1s'|'1m'|'3m'|'5m'|'15m'|'30m'|'1h'|'1d'|'1w'
 
 export interface CandlestickChartProps {
   data?: ChartCandle[];
