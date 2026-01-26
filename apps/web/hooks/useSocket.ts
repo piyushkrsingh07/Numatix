@@ -8,7 +8,7 @@ export const useSocket=()=>{
 
       if (!context) {
     throw new Error(
-      "useTheme must be used within ThemeContextProvider"
+      "useSocket not properly configured"
     );
   }
   return context

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Select  from 'react-select'
-
-const ReactSelect = React.memo(() => {
-      type Option={
+import { useSymbol } from '@/hooks/useSymbol';
+   type Option={
         label:string;
         value:string
     }
-
+const ReactSelect = React.memo(() => {
+   
+const {currentSymbol,setCurrentSymbol}=useSymbol()
 const [symbols,setSymbols]=useState<Option[]>([])
     const getAllCoins=async()=>{
        try{
@@ -17,7 +18,7 @@ const [symbols,setSymbols]=useState<Option[]>([])
          console.log('see final data',data)
          const finalData: Option[]=symbol.map((sym:string)=>({
             label:sym,
-            val:sym
+            value:sym
          }))
 setSymbols(finalData)
 
@@ -35,12 +36,14 @@ setSymbols(finalData)
         placeholder='Search Symbol'
         isClearable
         options={symbols}
-      
+        
+        onChange={(option)=>setCurrentSymbol(option?.value ?? "")}
+
   hideSelectedOptions={false}
   menuShouldScrollIntoView={false}
   controlShouldRenderValue={true}
+  
 
-  /* 🔥 THIS FIXES THE GREY DROPDOWN */
   styles={{
     menuList: (base) => ({
       ...base,

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeContextProvider } from "@/context/ThemeProvider";
 import { SocketContextProvider } from "@/context/SocketContext";
+import { AppContextProvider } from "@/context/AppContextProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,14 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SocketContextProvider>
-    <ThemeContextProvider>
+ <AppContextProvider>
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
     </html>
-   </ThemeContextProvider>
-   </SocketContextProvider>
+    </AppContextProvider>
+ 
   );
 }
