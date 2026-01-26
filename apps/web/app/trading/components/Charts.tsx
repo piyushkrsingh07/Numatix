@@ -213,7 +213,7 @@ const showTime =
           ${Number.isFinite(close) ? close.toFixed(4) : 0}
         </div>
 
-        <div className={`flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-semibold ${formatted ? "text-green-600" : "text-red-600"}`}>
+        <div className={`flex items-center rounded-full  px-2.5 py-0.5 text-sm font-semibold ${chartCurrentPrice >= 0 ? "text-green-600 bg-green-100" : "text-red-600 bg-red-300"}`}>
       {formatted}
         </div>
       </div>

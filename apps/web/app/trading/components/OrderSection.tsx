@@ -7,7 +7,7 @@ const OrderSection = () => {
   return (
     <div className="flex-col  sm:flex sm:flex-row h-full w-full  gap-6 lg:flex-col">
       {/* Portfolio Card */}
-     <div className="w-full sm:w-1/2 lg:w-full rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+     <div className="w-full sm:w-1/2 lg:w-full rounded-2xl border border-gray-100 bg-white p-2 shadow-sm">
   {/* Title */}
   <h2 className="mb-4 text-lg font-semibold text-gray-900">
     Portfolio
@@ -50,18 +50,20 @@ const OrderSection = () => {
         <TabsList   className="
     mb-4
     inline-flex
-    w-auto
+    w-full
     rounded-full
     border border-gray-200
     bg-gray-50
     p-1
     gap-2
+
+  
   "
 >
 <TabsTrigger
   value="LIMIT"
   className="
-    rounded-full px-6 py-2 text-sm font-semibold
+    rounded-full px-2.5 py-2 text-sm font-semibold
     text-gray-400
     bg-transparent
 
@@ -81,7 +83,7 @@ const OrderSection = () => {
           <TabsTrigger
             value="MARKET"
           className="
-    rounded-full px-6 py-2 text-sm font-semibold
+    rounded-full px-2 py-2 text-sm font-semibold
     text-gray-400
     bg-transparent
 
@@ -99,7 +101,7 @@ const OrderSection = () => {
           <TabsTrigger
             value="STOPMARKET"
      className="
-    rounded-full px-6 py-2 text-sm font-semibold
+    rounded-full px-2 py-2 text-sm font-semibold
     text-gray-400
     bg-transparent
 
@@ -118,23 +120,23 @@ const OrderSection = () => {
         {/* LIMIT FORM */}
         <TabsContent value="LIMIT">
        
-           <OrderForm/>
+           <OrderForm parentValue="BUY" childValue="LIMIT"/>
          
         </TabsContent>
         <TabsContent value='MARKET'>
-           <OrderForm/>
+           <OrderForm parentValue="BUY" childValue="MARKET"/>
         </TabsContent>
         <TabsContent value='STOPMARKET'>
-           <OrderForm/>
+       <OrderForm parentValue="BUY" childValue="STOPMARKET"/>
         </TabsContent>
         
       </Tabs>
     </TabsContent>
 
-    {/* SELL CONTENT (same styling, empty for now) */}
+
     <TabsContent value="SELL" className="mt-4">
      <Tabs defaultValue="LIMIT">
-        {/* LIMIT / MARKET / STOP */}
+      
         <TabsList   className="
     mb-4
     inline-flex
@@ -206,14 +208,14 @@ const OrderSection = () => {
         {/* LIMIT FORM */}
         <TabsContent value="LIMIT">
        
-           <OrderForm/>
+           <OrderForm parentValue="BUY" childValue="LIMIT"/>
          
         </TabsContent>
         <TabsContent value='MARKET'>
-           <OrderForm/>
+           <OrderForm parentValue="BUY" childValue="MARKET"/>
         </TabsContent>
         <TabsContent value='STOPMARKET'>
-           <OrderForm/>
+           <OrderForm parentValue="BUY" childValue="STOPMARKET"/>
         </TabsContent>
         
       </Tabs>

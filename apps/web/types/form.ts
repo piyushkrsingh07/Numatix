@@ -12,6 +12,7 @@ export type FormInputProps<T extends FieldValues> = {
   type?: string;
   register: UseFormRegister<T>;
   error?: FieldError;
+  readonly?:boolean;
   disabled?: boolean;
   suffix?:string
   value?:string

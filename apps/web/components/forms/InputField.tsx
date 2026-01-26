@@ -14,6 +14,7 @@ const InputField =<T extends FieldValues> ({name,label,placeholder,type='text',r
          <Label htmlFor={name} className={`${isDark?'text-white':'text-black'}`}>
             {label}
          </Label>
+         <div className="relative flex items-center">
         <Input 
           type={type}
           id={name}
@@ -28,6 +29,21 @@ const InputField =<T extends FieldValues> ({name,label,placeholder,type='text',r
 
               
         />
+   
+  {suffix && (
+    <div
+      className={cn(
+        'absolute right-2 flex items-center px-2 text-xs font-medium',
+        isDark
+          ? 'text-gray-400 bg-red-500'
+          : 'text-gray-500 bg-white'
+      )}
+    >
+      {suffix}
+    </div>
+  )}
+         </div>
+
          {error && (
                 <p className='text-xs text-red-500'>
                   {error.message}
