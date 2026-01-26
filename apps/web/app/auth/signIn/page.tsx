@@ -1,6 +1,6 @@
 'use client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
@@ -10,6 +10,9 @@ import { useTheme } from '@/hooks/useTheme'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
+import { useSignIn } from '@/hooks/useSignIn'
+import { useAuth } from '@/hooks/useAuth'
+import { toast } from 'sonner'
 
 const signInSchema=z.object({
     email:z.string().trim().min(4,{message:"Invalid email"}).max(30,{message:"Invalid email"}),
@@ -24,7 +27,7 @@ const signInSchema=z.object({
 })
 
 const SignIn = () => {
-
+   const {auth}=useAuth()
     const {
         register,
         handleSubmit,
@@ -38,13 +41,39 @@ const SignIn = () => {
         }
     })
 
+    const {isPending,isSuccess,error,signInMutation}=useSignIn()
+
         const onSubmit:(data:SignInFormData)=>Promise<void>=async(data:SignInFormData)=>{
        try{
-         console.log(data,'see signup data')
+         console.log(data,'see signin data')
+         await signInMutation(data)
        }catch(error:any){
         console.log(error)
        }
     }
+          useEffect(()=>{
+      
+      console.log(auth,'checking auth received here in signin first')
+         if (!isSuccess && !auth) return
+
+  
+        console.log(auth,'checking auth received here in signin last')
+           
+        if(auth?.token){
+ toast.success('Successfully signed in')
+        const timer=setTimeout(()=>{
+         router.push(`/trading`)
+              },3000)
+                return ()=>clearTimeout(timer)
+        }
+
+
+           
+       
+           
+        
+     
+     },[isSuccess,auth])
         const router=useRouter()
         const {isDark,setIsDark}=useTheme()
     

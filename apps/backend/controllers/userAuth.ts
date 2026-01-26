@@ -19,6 +19,9 @@ const register=async(req:Request,res:Response)=>{
         res.cookie("token",token,{
          expires:new Date(Date.now()+2*3600000)
         })
+         res.cookie("user",user,{
+         expires:new Date(Date.now()+2*3600000)
+        })
        return res.status(200).json({message:"User Added Successfully",data:user})
 
     }catch(error:any){
@@ -35,6 +38,10 @@ const login=async(req:Request,res:Response)=>{
      const user = await signInService(validatedBody)
      const {token}=user
              res.cookie("token",token,{
+         expires:new Date(Date.now()+2*3600000)
+        })
+
+        res.cookie("user",JSON.stringify(user),{
          expires:new Date(Date.now()+2*3600000)
         })
 

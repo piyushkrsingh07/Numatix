@@ -4,10 +4,13 @@ import Charts from "./components/Charts";
 import HeaderSection from "./components/Header";
 import OrderSection from "./components/OrderSection";
 import PositionTable from "./components/PositionTable";
+import { useAuth } from "@/hooks/useAuth";
 
 const Trading = () => {
 
   const {currentSymbol}=useSymbol()
+  const {auth}=useAuth()
+  console.log(auth,'dekho auth')
   return (
     <div className="min-h-screen w-full bg-gray-50 px-6 py-4">
 

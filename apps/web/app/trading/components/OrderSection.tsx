@@ -7,11 +7,15 @@ import axios from 'axios'
 import Select  from 'react-select'
 import ReactSelect from './Select'
 import { Separator } from '@/components/ui/separator'
+import dynamic from "next/dynamic";
 
+  const DynamicSelect = dynamic(() => import("./Select"), {
+  ssr: false,
+});
 
-const OrderSection = () => {
+const OrderSection = React.memo(() => {
 
-  
+console.log("OrderSection render");
 
 
   return (
@@ -23,7 +27,7 @@ const OrderSection = () => {
   <h2 className="mb-4 text-lg font-semibold text-gray-900">
     Portfolio
   </h2>
-   <ReactSelect/>
+   <DynamicSelect/>
     
 <Separator className="w-full my-4 bg-gray-300 dark:bg-gray-700" />
 
@@ -274,6 +278,6 @@ const OrderSection = () => {
 
     </div>
   )
-}
+})
 
 export default OrderSection
