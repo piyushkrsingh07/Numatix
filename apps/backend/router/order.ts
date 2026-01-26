@@ -5,5 +5,7 @@ import authentication from "../middlewares/auth.js";
 const app:Router=Router()
 
 app.post('/orders',authentication,orderController.postOrder)
+app.get('/orders',authentication,orderController.getOrder)
+
 
 export default app

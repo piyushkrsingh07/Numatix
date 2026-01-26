@@ -1,10 +1,12 @@
 import { Request,Response } from "express";
 import { validate } from "../validators/zodValidator.js";
 
-import { OrderService } from "../services/orderService.js";
+import { getUserOrder, OrderService } from "../services/orderService.js";
 import { OrderSchema } from "../validators/orderSchema.js";
 import type { User } from "../types/user.js";
 import { RedisService } from "../services/redisService.js";
+import ClientError from "../errors/clientErrors.js";
+import { StatusCodes } from "http-status-codes";
 
 
 
@@ -35,8 +37,37 @@ const postOrder=async(req:Request,res:Response)=>{
     }
 }
 
+const getOrder=async(req:Request,res:Response)=>{
+    try{
+       const user=req.user as User
+         if(!user){
+               throw new ClientError ({
+        explanation:'Invalid data sent from the client',
+        message:'No registered user found for this email',
+        statusCode:StatusCodes.NOT_FOUND
+       })
+      }
+
+      const getOrder=await getUserOrder(user)
+      console.log(getOrder,'find jo order mila')
+       return res.status(200).json({message:`Successfully Retrieved ${user.email} order`,data:{order:getOrder}})
+
+    }catch(error:any){
+ res.status(400).send("Error in getting  order"+error.message)
+    }
+}
+
+const getPosition=async(req:Request,res:Response)=>{
+    try{
+
+    }catch(error){
+        
+    }
+}
+
 const all_exports={
-    postOrder
+    postOrder,
+    getOrder
 }
 
 export default all_exports
