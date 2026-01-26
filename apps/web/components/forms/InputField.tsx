@@ -6,7 +6,7 @@ import { FieldValues } from "react-hook-form";
 import { FormInputProps } from '@/types/form';
 import { useTheme } from '@/hooks/useTheme';
 
-const InputField =<T extends FieldValues> ({name,label,placeholder,type='text',register,error,disabled}:FormInputProps<T>) => {
+const InputField =<T extends FieldValues> ({name,label,placeholder,type='text',register,error,disabled,suffix}:FormInputProps<T>) => {
     const {isDark}=useTheme()
   return (
     <div className=' flex flex-col gap-y-2'>
@@ -22,7 +22,7 @@ const InputField =<T extends FieldValues> ({name,label,placeholder,type='text',r
          
           className={cn( 
    
-            isDark ? "text-white bg-gray-800 placeholder:text-white placeholder:opacity-50 border-none" : "text-black placeholder:text-black",)}
+            isDark ? "text-white bg-gray-800 placeholder:text-white placeholder:opacity-50 border-none" : "text-black placeholder:text-black border-[0.1px]",)}
           {...register(name)}
             
 

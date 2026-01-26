@@ -1,120 +1,228 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import React from 'react'
+import OrderForm from './OrderForm'
 
 const OrderSection = () => {
   return (
     <div className="flex-col  sm:flex sm:flex-row h-full w-full  gap-6 lg:flex-col">
       {/* Portfolio Card */}
-      <div className=" w-full sm:w-1/2 xl:h-[59%] lg:w-full rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-        {/* Title */}
-        <h2 className="mb-4 text-lg font-semibold text-gray-900">
-          Portfolio
-        </h2>
+     <div className="w-full sm:w-1/2 lg:w-full rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+  {/* Title */}
+  <h2 className="mb-4 text-lg font-semibold text-gray-900">
+    Portfolio
+  </h2>
 
-        {/* Buy / Sell Toggle */}
-        <div className="mb-4 inline-flex overflow-hidden rounded-full border border-gray-200">
-          <button className="px-6 py-2 text-sm font-semibold text-gray-900">
-            BUY
-          </button>
-          <button className="px-6 py-2 text-sm font-medium text-gray-400">
-            SELL
-          </button>
-        </div>
+  {/* BUY / SELL Tabs */}
+  <Tabs defaultValue="BUY">
+    <TabsList className="mb-1 rounded-full border border-gray-200 bg-gray-50 p-1">
+      <TabsTrigger
+        value="BUY"
+        className="
+          rounded-full px-6 py-2 text-sm font-semibold
+          text-gray-400
+          data-[state=active]:bg-white
+          data-[state=active]:text-gray-900
+          data-[state=active]:shadow-sm
+        "
+      >
+        BUY
+      </TabsTrigger>
 
-        {/* Order Type Tabs */}
-        <div className="mb-5 flex gap-6 border-b text-sm font-medium">
-          <span className="border-b-2 border-purple-500 pb-2 text-gray-900">
-            Limit
-          </span>
-          <span className="pb-2 text-gray-400">
-            Market
-          </span>
-          <span className="pb-2 text-gray-400">
-            Stop Market
-          </span>
-        </div>
+      <TabsTrigger
+        value="SELL"
+        className="
+          rounded-full px-6 py-2 text-sm font-semibold
+          text-gray-400
+          data-[state=active]:bg-white
+          data-[state=active]:text-gray-900
+          data-[state=active]:shadow-sm
+        "
+      >
+        SELL
+      </TabsTrigger>
+    </TabsList>
 
-        {/* Limit Price */}
-        <div className="mb-4">
-          <label className="mb-1 block text-sm text-gray-500">
-            Limit price
-          </label>
-          <div className="flex items-center rounded-lg border px-3 py-2">
-            <input
-              type="text"
-              value="4,076.67"
-              readOnly
-              className="w-full text-sm text-gray-900 outline-none"
-            />
-            <span className="text-sm font-medium text-gray-500">
-              USDT
-            </span>
-          </div>
-        </div>
+    {/* BUY CONTENT */}
+    <TabsContent value="BUY" className="mt-4">
+      <Tabs defaultValue="LIMIT">
+        {/* LIMIT / MARKET / STOP */}
+        <TabsList   className="
+    mb-4
+    inline-flex
+    w-auto
+    rounded-full
+    border border-gray-200
+    bg-gray-50
+    p-1
+    gap-2
+  "
+>
+<TabsTrigger
+  value="LIMIT"
+  className="
+    rounded-full px-6 py-2 text-sm font-semibold
+    text-gray-400
+    bg-transparent
 
-        {/* Quantity + Total */}
-        <div className="mb-4 grid grid-cols-2 gap-3">
-          <div>
-            <label className="mb-1 block text-sm text-gray-500">
-              Quantity
-            </label>
-            <div className="flex items-center rounded-lg border px-3 py-2">
-              <input
-                type="text"
-                value="0.0001"
-                readOnly
-                className="w-full text-sm text-gray-900 outline-none"
-              />
-              <span className="text-sm font-medium text-gray-500">
-                BTC
-              </span>
-            </div>
-          </div>
+    data-[state=active]:bg-white
+    data-[state=active]:text-gray-900
+    data-[state=active]:shadow-sm
 
-          <div>
-            <label className="mb-1 block text-sm text-gray-500">
-              Total
-            </label>
-            <div className="flex items-center rounded-lg border px-3 py-2">
-              <input
-                type="text"
-                value="= 1.62204"
-                readOnly
-                className="w-full text-sm text-gray-900 outline-none"
-              />
-              <span className="text-sm font-medium text-gray-500">
-                USDT
-              </span>
-            </div>
-          </div>
-        </div>
+    hover:bg-transparent
+    focus:bg-transparent
+  "
+>
+  LIMIT
+</TabsTrigger>
 
-        {/* Slider */}
-        <div className="mb-4">
-          <div className="relative h-2 rounded-full bg-gray-200">
-            <div className="absolute left-0 top-0 h-2 w-[90%] rounded-full bg-purple-500" />
-          </div>
-          <div className="mt-2 text-right text-sm font-semibold text-gray-700">
-            90%
-          </div>
-        </div>
 
-        {/* Balance + Add Funds */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-            <span className="inline-block h-4 w-4 rounded border border-gray-400" />
-            30.16 USD
-          </div>
 
-          <button className="rounded-full bg-purple-100 px-4 py-1.5 text-sm font-medium text-purple-600">
-            Add funds
-          </button>
-        </div>
+          <TabsTrigger
+            value="MARKET"
+          className="
+    rounded-full px-6 py-2 text-sm font-semibold
+    text-gray-400
+    bg-transparent
 
-        {/* Buy Button */}
-        <button className="w-full rounded-full bg-gray-900 py-3 text-sm font-semibold text-white shadow-inner">
-          Buy BTC/USD
-        </button>
-      </div>
+    data-[state=active]:bg-white
+    data-[state=active]:text-gray-900
+    data-[state=active]:shadow-sm
+
+    hover:bg-transparent
+    focus:bg-transparent
+  "
+          >
+            MARKET
+          </TabsTrigger>
+
+          <TabsTrigger
+            value="STOPMARKET"
+     className="
+    rounded-full px-6 py-2 text-sm font-semibold
+    text-gray-400
+    bg-transparent
+
+    data-[state=active]:bg-white
+    data-[state=active]:text-gray-900
+    data-[state=active]:shadow-sm
+
+    hover:bg-transparent
+    focus:bg-transparent
+  "
+          >
+           STOP MARKET
+          </TabsTrigger>
+        </TabsList>
+
+        {/* LIMIT FORM */}
+        <TabsContent value="LIMIT">
+       
+           <OrderForm/>
+         
+        </TabsContent>
+        <TabsContent value='MARKET'>
+           <OrderForm/>
+        </TabsContent>
+        <TabsContent value='STOPMARKET'>
+           <OrderForm/>
+        </TabsContent>
+        
+      </Tabs>
+    </TabsContent>
+
+    {/* SELL CONTENT (same styling, empty for now) */}
+    <TabsContent value="SELL" className="mt-4">
+     <Tabs defaultValue="LIMIT">
+        {/* LIMIT / MARKET / STOP */}
+        <TabsList   className="
+    mb-4
+    inline-flex
+    w-auto
+    rounded-full
+    border border-gray-200
+    bg-gray-50
+    p-1
+    gap-2
+  "
+>
+<TabsTrigger
+  value="LIMIT"
+  className="
+    rounded-full px-6 py-2 text-sm font-semibold
+    text-gray-400
+    bg-transparent
+
+    data-[state=active]:bg-white
+    data-[state=active]:text-gray-900
+    data-[state=active]:shadow-sm
+
+    hover:bg-transparent
+    focus:bg-transparent
+  "
+>
+  LIMIT
+</TabsTrigger>
+
+
+
+          <TabsTrigger
+            value="MARKET"
+          className="
+    rounded-full px-6 py-2 text-sm font-semibold
+    text-gray-400
+    bg-transparent
+
+    data-[state=active]:bg-white
+    data-[state=active]:text-gray-900
+    data-[state=active]:shadow-sm
+
+    hover:bg-transparent
+    focus:bg-transparent
+  "
+          >
+            MARKET
+          </TabsTrigger>
+
+          <TabsTrigger
+            value="STOPMARKET"
+     className="
+    rounded-full px-6 py-2 text-sm font-semibold
+    text-gray-400
+    bg-transparent
+
+    data-[state=active]:bg-white
+    data-[state=active]:text-gray-900
+    data-[state=active]:shadow-sm
+
+    hover:bg-transparent
+    focus:bg-transparent
+  "
+          >
+           STOP MARKET
+          </TabsTrigger>
+        </TabsList>
+
+        {/* LIMIT FORM */}
+        <TabsContent value="LIMIT">
+       
+           <OrderForm/>
+         
+        </TabsContent>
+        <TabsContent value='MARKET'>
+           <OrderForm/>
+        </TabsContent>
+        <TabsContent value='STOPMARKET'>
+           <OrderForm/>
+        </TabsContent>
+        
+      </Tabs>
+    </TabsContent>
+  </Tabs>
+
+
+</div>
+
 
       {/* Account Card */}
     <div className="flex w-full sm:w-1/2 lg:w-full lg:h-full xl:h-[41%] flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm mt-5 sm:mt-0">

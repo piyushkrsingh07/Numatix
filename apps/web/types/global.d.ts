@@ -6,6 +6,7 @@ declare global {
         password:string;
     }
 
+
     type SignUpFormData  = {
         email:string,
         password:string,
@@ -24,4 +25,5 @@ declare global {
         value:string
 
     }
+
 }

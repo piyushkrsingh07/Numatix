@@ -13,4 +13,6 @@ export type FormInputProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   error?: FieldError;
   disabled?: boolean;
+  suffix?:string
+  value?:string
 };
