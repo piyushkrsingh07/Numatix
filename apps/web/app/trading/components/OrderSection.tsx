@@ -1,20 +1,34 @@
+'use client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import OrderForm from './OrderForm'
+import axios from 'axios'
+import Select  from 'react-select'
+import ReactSelect from './Select'
+import { Separator } from '@/components/ui/separator'
+
 
 const OrderSection = () => {
+
+  
+
+
   return (
     <div className="flex-col  sm:flex sm:flex-row h-full w-full  gap-6 lg:flex-col">
       {/* Portfolio Card */}
      <div className="w-full sm:w-1/2 lg:w-full rounded-2xl border border-gray-100 bg-white p-2 shadow-sm">
+    
   {/* Title */}
   <h2 className="mb-4 text-lg font-semibold text-gray-900">
     Portfolio
   </h2>
+   <ReactSelect/>
+    
+<Separator className="w-full my-4 bg-gray-300 dark:bg-gray-700" />
 
-  {/* BUY / SELL Tabs */}
-  <Tabs defaultValue="BUY">
+
+  <Tabs defaultValue="BUY" className='mt-2'>
     <TabsList className="mb-1 rounded-full border border-gray-200 bg-gray-50 p-1">
       <TabsTrigger
         value="BUY"
@@ -43,7 +57,7 @@ const OrderSection = () => {
       </TabsTrigger>
     </TabsList>
 
-    {/* BUY CONTENT */}
+ 
     <TabsContent value="BUY" className="mt-4">
       <Tabs defaultValue="LIMIT">
         {/* LIMIT / MARKET / STOP */}
@@ -205,7 +219,7 @@ const OrderSection = () => {
           </TabsTrigger>
         </TabsList>
 
-        {/* LIMIT FORM */}
+ 
         <TabsContent value="LIMIT">
        
            <OrderForm parentValue="BUY" childValue="LIMIT"/>
@@ -226,13 +240,13 @@ const OrderSection = () => {
 </div>
 
 
-      {/* Account Card */}
+
     <div className="flex w-full sm:w-1/2 lg:w-full lg:h-full xl:h-[41%] flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm mt-5 sm:mt-0">
   <h2 className="mb-4 text-lg font-semibold text-gray-900">
     Account
   </h2>
 
-  {/* Content */}
+
   <div className="space-y-4 text-sm">
     <div className="flex justify-between">
       <span className="text-gray-500">Margin Ratio</span>
@@ -254,7 +268,7 @@ const OrderSection = () => {
     </div>
   </div>
 
-  {/* Spacer pushes content up if needed */}
+
   <div className="flex-1" />
 </div>
 
