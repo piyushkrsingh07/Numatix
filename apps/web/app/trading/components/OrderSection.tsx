@@ -2,9 +2,9 @@ import React from 'react'
 
 const OrderSection = () => {
   return (
-    <div className="flex h-full w-full  gap-6 lg:flex-col">
+    <div className="flex-col  sm:flex sm:flex-row h-full w-full  gap-6 lg:flex-col">
       {/* Portfolio Card */}
-      <div className="w-1/2 xl:h-[59%] lg:w-full rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+      <div className=" w-full sm:w-1/2 xl:h-[59%] lg:w-full rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
         {/* Title */}
         <h2 className="mb-4 text-lg font-semibold text-gray-900">
           Portfolio
@@ -117,7 +117,7 @@ const OrderSection = () => {
       </div>
 
       {/* Account Card */}
-    <div className="flex w-1/2 lg:w-full lg:h-full xl:h-[41%] flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+    <div className="flex w-full sm:w-1/2 lg:w-full lg:h-full xl:h-[41%] flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm mt-5 sm:mt-0">
   <h2 className="mb-4 text-lg font-semibold text-gray-900">
     Account
   </h2>

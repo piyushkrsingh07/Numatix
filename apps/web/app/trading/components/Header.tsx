@@ -17,18 +17,10 @@ const HeaderSection = () => {
         {/* Right Actions */}
         <div className="flex items-center gap-3">
           {/* Live Trading Pill */}
-          <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-green-500" />
-            Live trading
-            <svg
-              className="h-4 w-4 text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
+          <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-[14.2px] py-[14.2px] sm:px-2 sm:py-2 text-sm font-medium text-gray-900 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-green-500 " />
+            <p className='hidden sm:block'>Live trading</p>
+        
           </button>
 
           {/* Theme Button */}
@@ -51,7 +43,7 @@ const HeaderSection = () => {
           {/* Camera Button */}
           <button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm hover:bg-gray-50">
             <svg
-              className="h-5 w-5 text-gray-700"
+              className="w-2 h-2 sm:h-5 sm:w-5 text-gray-700"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
