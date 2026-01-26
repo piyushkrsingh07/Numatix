@@ -5,6 +5,7 @@ import { BINANCE_PERIOD_MAP, getChartConfig, PERIOD_BUTTONS, getCandlestickConfi
 import { BinanceKline, CandlestickChartProps, ChartCandle, Period } from '@/types/charts';
 import { CandlestickSeries, createChart, IChartApi, ISeriesApi, UTCTimestamp } from 'lightweight-charts';
 import { useBinanceWebSocket } from '@/hooks/useWebSocket';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 const transformKlinesToChartData = (
@@ -18,7 +19,7 @@ const transformKlinesToChartData = (
     close: +close,
   }));
 
-const Charts = ({
+const Charts = React.memo(({
   data,
   coinId,
   height = 360,
@@ -156,6 +157,22 @@ const showTime =
     const chart = createChart(container, {
       ...getChartConfig(height, showTime),
       width: container.clientWidth,
+        layout: {
+    background: {
+     
+      color: '#ffffff', 
+    },
+    textColor: '#111827',
+  },
+
+  grid: {
+    vertLines: {
+      color: '#e5e7eb',
+    },
+    horzLines: {
+      color: '#e5e7eb',
+    },
+  },
     });
 
     const series = chart.addSeries(
@@ -183,30 +200,80 @@ const showTime =
   }, [height]);
 
   return (
-    <div id="w-full h-full">
-      <div className='chart-header'>
-        <div className='button-group'>
-          <span className='text-sm mx-2 font-medium text-purple-50'>
-            Period: {isConnected && <span className='text-green-400 ml-2'>● Live</span>}
-          </span>
-          {NEW_PERIOD_BUTTONS.map(({ value, label }) => (
-            <button
-              key={value}
-              className={period === value ? 'config-button-active bg-green-600' : 'config-button'}
-              onClick={() => handlePeriodChange(value)}
-              disabled={loading}
-            >
-              {label}
-            </button>
-          ))}
-          <div>${currentPrice?.c}</div>
-          <div className={formatted?'text-green-700':'text-red-700'}>{formatted}</div>
-        </div>
+<div className="w-full h-full rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+  <div className="mb-4 flex items-start justify-between">
+
+    <div>
+      <div className="text-sm font-semibold text-gray-900">
+       {coinId}
       </div>
 
-      <div ref={chartContainerRef} className='chart' style={{ height }} />
+      <div className="mt-1 flex items-center gap-3">
+        <div className="text-2xl lg:text-[1.7rem] xl:text-3xl font-bold text-gray-900">
+          ${Number.isFinite(close) ? close.toFixed(4) : 0}
+        </div>
+
+        <div className={`flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-semibold ${formatted ? "text-green-600" : "text-red-600"}`}>
+      {formatted}
+        </div>
+      </div>
     </div>
+
+  
+    <div className=" hidden md:flex  items-center rounded-full border border-gray-200 bg-white p-1 lg:-ml-3">
+      {NEW_PERIOD_BUTTONS.map(({ value, label }) => (
+        <button
+          key={value}
+          disabled={loading}
+          onClick={() => handlePeriodChange(value)}
+          className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${period === value? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-100"}`}
+       
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+    <div className="md:hidden ">
+      
+  <Select
+    value={period}
+    onValueChange={(value:Period) => handlePeriodChange(value)}
+    disabled={loading}
+    
+  >
+    <SelectTrigger className="w-full rounded-full border-gray-200 bg-white text-xs font-medium">
+      <SelectValue placeholder="Select period" />
+    </SelectTrigger>
+
+    <SelectContent className='bg-white'>
+      {NEW_PERIOD_BUTTONS.map(({ value, label }) => (
+        <SelectItem key={value} value={value}>
+          {label}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+</div>
+
+  </div>
+
+
+  <div className="mb-2 text-xs font-medium text-gray-500">
+    Period:
+    {isConnected && (
+      <span className="ml-2 text-green-500">● Live</span>
+    )}
+  </div>
+
+
+  <div
+    ref={chartContainerRef}
+    className="mt-4 w-full rounded-xl "
+    style={{ height }}
+  />
+</div>
+
   )
-}
+})
 
 export default Charts
