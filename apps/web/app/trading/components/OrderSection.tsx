@@ -8,6 +8,8 @@ import Select  from 'react-select'
 import ReactSelect from './Select'
 import { Separator } from '@/components/ui/separator'
 import dynamic from "next/dynamic";
+import { useGetUserAccount } from '@/hooks/useGetUserAccount'
+
 
   const DynamicSelect = dynamic(() => import("./Select"), {
   ssr: false,
@@ -15,13 +17,21 @@ import dynamic from "next/dynamic";
 
 const OrderSection = React.memo(() => {
 
+
+
 console.log("OrderSection render");
+
+const {account,isFetching}=useGetUserAccount()
+
+
+const accountInfo=account?.data
+
 
 
   return (
     <div className="flex-col  sm:flex sm:flex-row h-full w-full  gap-6 lg:flex-col">
       {/* Portfolio Card */}
-     <div className="w-full sm:w-1/2 lg:w-full rounded-2xl border border-gray-100 bg-white p-2 shadow-sm">
+     <div className="w-full sm:w-1/2 lg:w-full rounded-2xl border border-gray-100 bg-white p-2 shadow-sm h-[70%]">
     
   {/* Title */}
   <h2 className="mb-4 text-lg font-semibold text-gray-900">
@@ -245,38 +255,76 @@ console.log("OrderSection render");
 
 
 
-    <div className="flex w-full sm:w-1/2 lg:w-full lg:h-full xl:h-[41%] flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm mt-5 sm:mt-0">
-  <h2 className="mb-4 text-lg font-semibold text-gray-900">
+<div
+  className="flex w-full sm:w-1/2 lg:w-full lg:h-full xl:h-full
+             flex-col rounded-2xl border border-gray-100
+             bg-white px-5 pt-3 mt-5 sm:mt-0 gap-y-5"
+>
+  <h2 className="text-lg font-semibold text-gray-900">
     Account
   </h2>
 
-
-  <div className="space-y-4 text-sm">
+  {/* Top content */}
+  <div className="mt-4 space-y-4 text-sm">
     <div className="flex justify-between">
-      <span className="text-gray-500">Margin Ratio</span>
-      <span className="font-semibold text-gray-900">0.00%</span>
-    </div>
-
-    <div className="flex justify-between">
-      <span className="text-gray-500">Maintenance Margin</span>
+      <span className="text-gray-500">Free USDT Balance</span>
       <span className="font-semibold text-gray-900">
-        0.000000 USDT
+        {accountInfo?.freeUSDTBalance ?? 0}
       </span>
     </div>
 
-    <div className="flex justify-between opacity-40">
-      <span className="text-gray-500">Margin Balance</span>
+    <div className="flex justify-between">
+      <span className="text-gray-500">Locked USDT Balance</span>
       <span className="font-semibold text-gray-900">
-        0.000000 USDT
+        {accountInfo?.lockedUSDTBalance ?? 0}
+      </span>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="text-gray-500">Total USDT Balance</span>
+      <span className="font-semibold text-gray-900">
+        {accountInfo?.totalUSDTBalance ?? 0}
       </span>
     </div>
   </div>
 
 
-  <div className="flex-1" />
+
+
+  <div className="flex items-center justify-center gap-3 mt-4 pt-2">
+    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 text-gray-700"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.8}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M21 12v4a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h14a2 2 0 012 2v4zm0 0h-4a2 2 0 00-2 2 2 2 0 002 2h4"
+        />
+      </svg>
+    </div>
+
+    <div className="flex flex-col">
+      <span className="text-sm text-gray-500">
+        Available Balance
+      </span>
+      <span className="text-lg font-semibold text-gray-900">
+        {accountInfo?.totalUSDTBalance ?? 0} USDT
+      </span>
+    </div>
+  </div>
 </div>
 
-    </div>
+</div>
+ 
+  
+
+
   )
 })
 

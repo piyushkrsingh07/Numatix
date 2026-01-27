@@ -1,8 +1,26 @@
 'use client'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useAuth } from '@/hooks/useAuth'
+import { useGetUserAccount } from '@/hooks/useGetUserAccount'
+import { LogOutIcon, Wallet } from 'lucide-react'
 import React from 'react'
+import { toast } from 'sonner'
 
 const HeaderSection = () => {
+
+  const {auth,logout}=useAuth()
+  const {account,isFetching}=useGetUserAccount()
+  
+  
+  const accountInfo=account?.data
+
+  const handleLogout=async()=>{
+    await logout()
+    toast.success('Successfully loggedout')
+  }
   return (
     <header className="w-full rounded-2xl border border-gray-100 bg-white px-6 py-3 shadow-sm">
       <div className="flex items-center justify-between">
@@ -40,29 +58,96 @@ const HeaderSection = () => {
             </svg>
           </button>
 
-          {/* Camera Button */}
-          <button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm hover:bg-gray-50">
-            <svg
-              className="w-2 h-2 sm:h-5 sm:w-5 text-gray-700"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 7h4l2-3h6l2 3h4v12H3V7z"
-              />
-              <circle cx="12" cy="13" r="3" />
-            </svg>
-          </button>
+         
 
           {/* Avatar */}
-          <div className="relative">
-            <div className="h-10 w-10 rounded-full bg-gray-300" />
-            <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" />
-          </div>
+     
+    <DropdownMenu>
+<DropdownMenuTrigger asChild>
+  <button
+    className="
+      relative
+      flex items-center justify-center
+      h-10 w-10
+      rounded-full
+      border border-gray-200
+      bg-white
+      hover:bg-gray-100
+      hover:opacity-90
+      transition
+
+      outline-none
+      focus:outline-none
+      focus:ring-0
+      focus:ring-offset-0
+      focus-visible:outline-none
+      focus-visible:ring-0
+      focus-visible:ring-offset-0
+    "
+  >
+    <Avatar className="h-9 w-9">
+      <AvatarFallback
+        className="
+          flex items-center justify-center
+          h-full w-full
+          bg-gray-200
+          text-gray-700
+          font-semibold
+          text-2xl
+        "
+      >
+        {String(auth?.user?.email?.[0]).toUpperCase()}
+      </AvatarFallback>
+    </Avatar>
+  </button>
+</DropdownMenuTrigger>
+
+
+  <DropdownMenuContent
+    align="end"
+    className="w-40 rounded-xl p-1 bg-white"
+  >
+    <DropdownMenuGroup>
+    <DropdownMenuItem
+      onClick={handleLogout}
+      className="cursor-pointer rounded-lg px-3 py-2 text-sm"
+    >
+      <LogOutIcon className="mr-2 h-4 w-4" />
+      Logout
+    </DropdownMenuItem>
+    </DropdownMenuGroup>
+
+<DropdownMenuSeparator className="my-2 mx-3 h-px bg-black opacity-100" />
+         <DropdownMenuGroup>
+
+ 
+<DropdownMenuItem className="cursor-pointer rounded-lg px-3 py-2">
+  <div className="flex flex-col gap-1">
+    
+
+    <div className="flex items-center gap-2">
+      <Wallet className="h-4 w-4 text-gray-600" />
+      <span className="text-md font-semibold text-gray-500">
+        AVAILABLE BALANCE
+      </span>
+    </div>
+
+   
+    <div className="text-center ml-3 text-sm font-bold text-gray-900">
+      {accountInfo?.totalUSDTBalance ?? 0}
+    </div>
+
+  </div>
+</DropdownMenuItem>
+
+   
+         </DropdownMenuGroup>
+
+  </DropdownMenuContent>
+
+
+</DropdownMenu>
+
         </div>
       </div>
     </header>
