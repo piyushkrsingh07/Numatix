@@ -22,9 +22,11 @@
     "dependencies": {
         "@repo/db": "*",
         "@types/bcrypt": "^6.0.0",
+        "axios": "^1.13.3",
         "bcrypt": "^6.0.0",
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
+        "crypto-js": "^4.2.0",
         "cryptr": "^6.4.0",
         "express": "^5.2.1",
         "http-status-codes": "^2.3.0",
