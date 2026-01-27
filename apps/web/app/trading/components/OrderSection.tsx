@@ -117,7 +117,7 @@ console.log("OrderSection render");
           </TabsTrigger>
 
           <TabsTrigger
-            value="STOPMARKET"
+            value="STOP_MARKET"
      className="
     rounded-full px-2 py-2 text-sm font-semibold
     text-gray-400
@@ -144,8 +144,8 @@ console.log("OrderSection render");
         <TabsContent value='MARKET'>
            <OrderForm parentValue="BUY" childValue="MARKET"/>
         </TabsContent>
-        <TabsContent value='STOPMARKET'>
-       <OrderForm parentValue="BUY" childValue="STOPMARKET"/>
+        <TabsContent value='STOP_MARKET'>
+       <OrderForm parentValue="BUY" childValue="STOP_MARKET"/>
         </TabsContent>
         
       </Tabs>
@@ -205,7 +205,7 @@ console.log("OrderSection render");
           </TabsTrigger>
 
           <TabsTrigger
-            value="STOPMARKET"
+            value="STOP_MARKET"
      className="
     rounded-full px-6 py-2 text-sm font-semibold
     text-gray-400
@@ -232,8 +232,8 @@ console.log("OrderSection render");
         <TabsContent value='MARKET'>
            <OrderForm parentValue="BUY" childValue="MARKET"/>
         </TabsContent>
-        <TabsContent value='STOPMARKET'>
-           <OrderForm parentValue="BUY" childValue="STOPMARKET"/>
+        <TabsContent value='STOP_MARKET'>
+           <OrderForm parentValue="BUY" childValue="STOP_MARKET"/>
         </TabsContent>
         
       </Tabs>

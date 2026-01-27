@@ -6,6 +6,7 @@ import { BinanceKline, CandlestickChartProps, ChartCandle, Period } from '@/type
 import { CandlestickSeries, createChart, IChartApi, ISeriesApi, UTCTimestamp } from 'lightweight-charts';
 import { useBinanceWebSocket } from '@/hooks/useWebSocket';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { usePrice } from '@/hooks/usePrice';
 
 
 const transformKlinesToChartData = (
@@ -35,7 +36,7 @@ const Charts = React.memo(({
 
   const lastCandleTimeRef = useRef<UTCTimestamp | null>(null);
 
-
+    const {setClosePrice}=usePrice()
 
 
 
@@ -77,13 +78,16 @@ const formatted =
       );
 
       const rawData = response.data as BinanceKline[];
+      console.log(rawData,'see raw data')
       const chartData = transformKlinesToChartData(rawData);
-
+       console.log(chartData,'see chart dta')
       setOhlcData(chartData);
         if (candleSeriesRef.current) {
       candleSeriesRef.current.setData(chartData);
       const lastCandle = chartData.at(-1);
-      console.log('dekho last time')
+      console.log('dekho last time',lastCandle)
+      setClosePrice(lastCandle?.close ?? 0)
+
       if (lastCandle) lastCandleTimeRef.current = lastCandle.time;
     }
   }

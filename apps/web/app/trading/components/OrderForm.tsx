@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useEffect } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -12,15 +12,17 @@ import { useTheme } from '@/hooks/useTheme'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
+import { usePrice } from '@/hooks/usePrice'
+import { useSymbol } from '@/hooks/useSymbol'
 
 const OrderSchema = z.object({
-  quantity: z.string().min(1, 'Quantity is required'),
-  limit_price: z.string().optional().or(z.literal('')),
-  trigger_price: z.string().optional().or(z.literal('')),
+  quantity: z.string().min(1,'Quantity is required'),
+  price: z.string().optional().or(z.literal('')),
+  stopPrice: z.string().optional().or(z.literal('')),
 })
 
 type ParentValue='BUY'|'SELL'
-type ChildValue='LIMIT'|'MARKET'|'STOPMARKET'
+type ChildValue='LIMIT'|'MARKET'|'STOP_MARKET'
 
 interface OrderFormProps {
     parentValue:ParentValue;
@@ -31,55 +33,87 @@ interface OrderFormProps {
 type OrderFormData = z.infer<typeof OrderSchema>
 
 const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
+  const {currentSymbol}=useSymbol()
+    const { isDark } = useTheme()
+  const {closeprice}=usePrice()
+
   const {
     register,
+    setValue,
     handleSubmit,
+    control,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<OrderFormData>({
     resolver: zodResolver(OrderSchema),
     defaultValues: {
-      limit_price: '',
+      price: '',
       quantity: '',
-      trigger_price: '',
+      stopPrice:''
     },
   })
 
+  const currentPrice=useWatch({
+    control,
+    name:'price'
+  })
+
+    const currentQuantity=useWatch({
+    control,
+    name:'quantity'
+  })
+  
   const onSubmit = async (data: OrderFormData) => {
     console.log(data,'dekho data jo gya hai')
+    const finalData={...data,
+      type:childValue,
+      side:parentValue,
+      symbol:currentSymbol
+    }
+    console.log(finalData,'dekho final data')
   }
 
-  const { isDark } = useTheme()
+
+
+  useEffect(()=>{
+   if(closeprice === 0) return
+   setValue("price",closeprice.toString(),{
+    shouldDirty:false,
+    shouldValidate:true
+   })
+  },[closeprice,setValue])
 
   return (
   
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* LIMIT PRICE */}
+   
           {(parentValue === 'BUY' || parentValue === 'SELL') && childValue === 'LIMIT' && (
   <div className="space-y-1">
             <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
               <InputField
-                name="limit_price"
+                name="price"
                 type="number"
                 label="Limit price"
                 placeholder="0.00"
                 register={register}
-                error={errors.limit_price}
+                error={errors.price}
                 disabled={isSubmitting}
+                step="0.01"
                 suffix="USDT"
               />
             </div>
           </div>
           ) }
-                    {(parentValue === 'BUY' || parentValue === 'SELL') && childValue === 'STOPMARKET' && (
+                    {(parentValue === 'BUY' || parentValue === 'SELL') && childValue === 'STOP_MARKET' && (
                 <div className="space-y-1 opacity-70">
             <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
               <InputField
-                name="trigger_price"
+                name="stopPrice"
                 type="number"
                 label="Trigger price "
                 placeholder="0.00"
                 register={register}
-                error={errors.trigger_price}
+                error={errors.stopPrice}
                 disabled={isSubmitting}
                 suffix="USDT"
                
@@ -114,8 +148,8 @@ const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
                 readOnly
                 placeholder="0.00"
                   className="cursor-not-allowed opacity-70 mt-1"
-                disabled
-                
+    
+                value={childValue === 'LIMIT'?Number(currentPrice || 0 )*Number(currentQuantity || 0):Number(currentPrice || 0) *Number(currentQuantity || 0) }
               />
                   <div
                     className={cn(

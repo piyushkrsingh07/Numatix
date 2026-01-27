@@ -14,6 +14,7 @@ export type FormInputProps<T extends FieldValues> = {
   error?: FieldError;
   readonly?:boolean;
   disabled?: boolean;
-  suffix?:string
-  value?:string
+  suffix?:string;
+  value?:string;
+   step?: string | number
 };

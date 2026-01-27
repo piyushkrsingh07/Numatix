@@ -1,7 +1,7 @@
 import z from "zod";
 
 const validSite=["BUY","SELL"]
-const validType=['LIMIT' , 'MARKET' , 'STOP_LOSS' , 'STOP_LOSS_LIMIT' ,'TAKE_PROFIT' , 'TAKE_PROFIT_LIMIT']
+const validType=['LIMIT' , 'MARKET' , 'STOP_MARKET','STOP_LOSS' , 'STOP_LOSS_LIMIT' ,'TAKE_PROFIT' , 'TAKE_PROFIT_LIMIT']
 const validTimeInForce=['GTC' , 'IOC' , 'FOK']
 
 export const OrderSchema=z.object({

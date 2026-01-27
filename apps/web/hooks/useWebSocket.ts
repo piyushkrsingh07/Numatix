@@ -44,7 +44,7 @@ console.log(socketRef.current,'jb change hua')
     ws.onmessage = (event) => {
       // console.log(event,'dekho event')
       const data: KlineMessage = JSON.parse(event.data);
-      console.log(data,'dekh data')
+      // console.log(data,'dekh data')
       const k = data.k;
 
       setOhlcv([
