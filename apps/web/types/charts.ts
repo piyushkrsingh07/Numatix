@@ -79,3 +79,13 @@ export interface CandlestickChartProps {
   liveInterval?: '1s' | '1m';
   setLiveInterval?: (interval: '1s' | '1m') => void;
 }
+
+export interface placeOrder {
+  symbol:string;
+  side:string;
+  type:string;
+  quantity:string;
+  price?:string;
+  stopPrice?:string;
+  timeInForce?:string;
+}

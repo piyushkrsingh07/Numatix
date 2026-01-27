@@ -22,6 +22,7 @@ enum OrderSide {
 enum OrderType {
   MARKET
   LIMIT
+  STOP_MARKET
 }
 
 enum OrderStatus {
@@ -33,6 +34,7 @@ enum OrderStatus {
   PARTIALLY_FILLED
   CANCELLED
   FAILED
+  NEW
 }
 
 model User {

@@ -7,9 +7,10 @@ import { ThemeContextProvider } from "./ThemeProvider";
 
 
 export const AppContextProvider=combineContext(
+    AuthContextProvider,
   SocketContextProvider,
   ThemeContextProvider,
   SymbolContextProvider,
-  AuthContextProvider,
+
   PriceContextProvider
 )

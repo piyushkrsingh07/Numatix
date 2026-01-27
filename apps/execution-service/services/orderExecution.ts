@@ -97,11 +97,14 @@ try{
     }
   
 
-}catch(error){
+}catch(error:any){
   console.log(error,'see error')
-  await redisConfig.pub.publish('events:order:status',JSON.stringify({Message:error}))
+  await redisConfig.pub.publish('events:order:status',JSON.stringify({Message:error?.response?.data?.msg  || error.response?.data?.message || error.message
+   
+}))
 
-  throw error
+
+  
 }
    
 
@@ -133,6 +136,6 @@ console.log(redisResponse.timestamp,'dekho timestamp')
 
    }catch(error){
 
-      throw  error
+  console.log(error,'err in palce order')
    }
 }

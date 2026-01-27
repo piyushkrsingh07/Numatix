@@ -5,6 +5,7 @@ import { ThemeContextProvider } from "@/context/ThemeProvider";
 import { SocketContextProvider } from "@/context/SocketContext";
 import { AppContextProvider } from "@/context/AppContextProvider";
 import QueryProvider from "./provider/QueryClient";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
+           <Toaster richColors position="top-right" />
       </body>
     </html>
     </AppContextProvider>

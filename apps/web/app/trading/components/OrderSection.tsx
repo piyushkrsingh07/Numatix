@@ -226,14 +226,14 @@ console.log("OrderSection render");
  
         <TabsContent value="LIMIT">
        
-           <OrderForm parentValue="BUY" childValue="LIMIT"/>
+           <OrderForm parentValue="SELL" childValue="LIMIT"/>
          
         </TabsContent>
         <TabsContent value='MARKET'>
-           <OrderForm parentValue="BUY" childValue="MARKET"/>
+           <OrderForm parentValue="SELL" childValue="MARKET"/>
         </TabsContent>
         <TabsContent value='STOP_MARKET'>
-           <OrderForm parentValue="BUY" childValue="STOP_MARKET"/>
+           <OrderForm parentValue="SELL" childValue="STOP_MARKET"/>
         </TabsContent>
         
       </Tabs>

@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import { usePrice } from '@/hooks/usePrice'
 import { useSymbol } from '@/hooks/useSymbol'
+import { usePlaceOrder } from '@/hooks/usePlaceOrder'
 
 const OrderSchema = z.object({
   quantity: z.string().min(1,'Quantity is required'),
@@ -32,11 +33,13 @@ interface OrderFormProps {
 
 type OrderFormData = z.infer<typeof OrderSchema>
 
+
 const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
   const {currentSymbol}=useSymbol()
     const { isDark } = useTheme()
   const {closeprice}=usePrice()
 
+    const {isPending,isSuccess,error,placeOrderMutation}=usePlaceOrder()
   const {
     register,
     setValue,
@@ -65,11 +68,38 @@ const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
   
   const onSubmit = async (data: OrderFormData) => {
     console.log(data,'dekho data jo gya hai')
-    const finalData={...data,
-      type:childValue,
+    const {price,quantity,stopPrice}=data
+
+    let finalData;
+
+    if(childValue === 'MARKET'){
+      finalData={
+        quantity:quantity,
+        type:childValue,
       side:parentValue,
       symbol:currentSymbol
+      }
+    }else if(childValue === 'STOP_MARKET'){
+        finalData={
+          quantity:quantity,
+          stopPrice:stopPrice,
+                  type:childValue,
+      side:parentValue,
+      symbol:currentSymbol
+        }
+    }else{
+   finalData={
+    price,
+    quantity,
+      type:childValue,
+      side:parentValue,
+      symbol:currentSymbol,
+      timeInForce:"GTC"
     }
+    }
+ if(!finalData) return
+ const response =  await placeOrderMutation(finalData)
+ console.log(response,'order m resposne')
     console.log(finalData,'dekho final data')
   }
 
@@ -196,7 +226,7 @@ const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
               hover:opacity-90
             "
           >
-            Buy BTC
+          {parentValue==='BUY'?'BUY':'SELL'} BTC
           </Button>
         </form>
   

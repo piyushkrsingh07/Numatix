@@ -33,6 +33,6 @@ console.log(orderCommand,'see order Commanf')
          
        return user
    }catch(error){
-      throw error
+  throw error
    }
 }

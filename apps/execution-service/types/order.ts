@@ -16,8 +16,8 @@ export enum OrderStatus {
   FAILED = "FAILED",
   FILLED="FILLED",
   REJECTED="REJECTED",
-  PARTIALLY_FILLED="PARTIALLY_FILLED"
-
+  PARTIALLY_FILLED="PARTIALLY_FILLED",
+  NEW="NEW"
 }
 
 export interface RedisOrderCommand {

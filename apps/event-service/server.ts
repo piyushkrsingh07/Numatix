@@ -37,7 +37,8 @@ async function start(){
     if(channel !== "events:order:status") return
     console.log(JSON.parse(message).Message,'dekho message finally')
       const data:Record<string,any>=JSON.parse(message).Message
-    emitOrderToSocket(data.userId,{
+      if(data.userId && data.symbol){
+  emitOrderToSocket(data.userId,{
         type:"ORDER_UPDATE",
         data:{
             orderId:data.userId,
@@ -46,6 +47,14 @@ async function start(){
             price:data.price
         }
     })
+      }
+      else{
+        emitOrderToSocket(data.userId,{
+        type:"ORDER_ERROR",
+        data:data
+    })
+      }
+  
 
 
  })

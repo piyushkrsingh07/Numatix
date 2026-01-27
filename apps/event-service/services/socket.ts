@@ -5,7 +5,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 
 let io:SocketIOServer
 
-
+let roomId:string;
 export  const initializeSocket = (server: HttpServer) => {
    io = new SocketIOServer(server, {
     cors: {
@@ -34,8 +34,10 @@ export  const initializeSocket = (server: HttpServer) => {
   io.on('connection',(socket:Socket)=>{
     console.log('new socket connected',socket.id)
      const userId=socket.data.userId
-     console.log(userId,'see which room joined')
-      socket.join(userId)
+
+      socket.join(socket.id)
+      roomId=socket.id
+           console.log(roomId,'see which room joined')
 
   })
 
@@ -44,7 +46,9 @@ export  const initializeSocket = (server: HttpServer) => {
 
 export const emitOrderToSocket=(userId:string,data:Record<string,any>)=>{
     console.log(data,'data jo bhja hai')
-     io.to(userId).emit("ORDER_UPDATE",data)
+    console.log(data.type,'see dataa type')
+    console.log(roomId,'bhjna s phle room')
+     io.to(roomId).emit(data.type,data)
 }
 
 

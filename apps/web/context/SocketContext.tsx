@@ -2,6 +2,9 @@
 import { io,Socket } from "socket.io-client";
 import React, { useEffect } from "react"
 import { createContext, useState } from "react"
+import { getCookie } from "cookies-next";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 interface SocketProviderProps {
     children?:React.ReactNode
@@ -14,11 +17,14 @@ const SocketContext=createContext<ISocketContext | undefined>(undefined)
 
 export const SocketContextProvider=({children}:SocketProviderProps)=>{
  const [socketInstance,setSocketInstance]=useState<Socket|null>(null)
+ const {auth}=useAuth()
+ const cookieToken = auth?.token
 
  useEffect(()=>{
-const socket=io('ws://localhost:1000',{
+    console.log(cookieToken,'see toje je')
+const socket=io('ws://localhost:8000',{
     auth:{
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJwaXl1c2gwMjA0MEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRYNzgyQVdnRVczVmprWUhzdlhXekJ1NFV2SmVybnFnVzN2ME1aQllRa3lER2N5MlVCNGN6UyIsImlhdCI6MTc2OTMzNzc2MiwiZXhwIjoxNzY5MzU1NzYyfQ.YHv6r9hyLEeswp8SJ8JJfveRtuC_xygTDZA4wJS6SO0"
+        token:cookieToken
     }
 })
 setSocketInstance(socket)
@@ -31,11 +37,16 @@ socket.on("disconnect",()=>{
 })
 socket.on("ORDER_UPDATE",(data)=>{
     console.log(data,'delho data jo ayaya')
+    toast.success("order successfully placed")
+})
+socket.on("ORDER_ERROR",(data)=>{
+    console.log(data,'ERROR AAYA JO')
+    toast.error(data.data)
 })
 return ()=>{
     socket.disconnect()
 }
- },[])
+ },[cookieToken])
 
 
 

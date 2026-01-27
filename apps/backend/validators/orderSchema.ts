@@ -10,7 +10,7 @@ side:z.enum(validSite),
 type:z.enum(validType),
  quantity:z.string().trim().min(1,{message:"Invalid quantity"}).max(15,{message:"Invalid quantity"}),
  price:z.string().min(1,{message:"Invalid price"}).max(15,{message:"Invalid price"}).optional(),
- stopPrice:z.string().min(1,{message:"Invalid stop price"}).max(15,{message:"Invalid stop price"}).optional(),
+ stopPrice:z.string().max(15,{message:"Invalid stop price"}).optional(),
  timeInForce:z.enum(validTimeInForce).optional()
 })
 

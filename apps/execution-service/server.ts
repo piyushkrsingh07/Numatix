@@ -25,6 +25,7 @@ app.get('/',(req:Request,res:Response):Response=>{
 
 async function start(){
     try{
+        console.log("yha aa gye")
      await  RedisService() // this service subscribe to redis commands
 
     }catch(error){

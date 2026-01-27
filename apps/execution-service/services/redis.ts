@@ -7,7 +7,7 @@ import { OrderExecution } from "./orderExecution"
 
 export const RedisService=async()=>{
 
-
+try{
    const redisPub=await redisConfig.sub.subscribe('commands:order:submit')
     console.log(redisPub,'dekho redis pub')
 
@@ -26,6 +26,10 @@ redisConfig.sub.on('message',async(channel:string,message:string)=>{
        }
     
   )  
+}catch(error){
+  console.log(error,'see error')
+}
+
   
     
     }
