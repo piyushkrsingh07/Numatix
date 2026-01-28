@@ -1,196 +1,102 @@
 'use client'
 
+import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsTrigger } from '@/components/ui/tabs'
 import { TabsList } from '@radix-ui/react-tabs'
+import { Search } from 'lucide-react'
 import React from 'react'
 
 const PositionTable = () => {
   return (
-    <Tabs defaultValue="POSITION" className='mt-2'>
-    <TabsList className="mb-1 rounded-full border border-gray-200 bg-gray-50 p-1">
-      <TabsTrigger
-        value="BUY"
-        className="
-          rounded-full px-6 py-2 text-sm font-semibold
-          text-gray-400
-          data-[state=active]:bg-white
-          data-[state=active]:text-gray-900
-          data-[state=active]:shadow-sm
-        "
-      >
-        BUY
-      </TabsTrigger>
+   <div className="w-full rounded-2xl border border-gray-200 bg-white p-6">
+  {/* Title */}
+  <div className="mb-4 text-sm font-semibold text-gray-600">
+    Positions & Orders
+  </div>
 
-      <TabsTrigger
-        value="SELL"
-        className="
-          rounded-full px-6 py-2 text-sm font-semibold
-          text-gray-400
-          data-[state=active]:bg-white
-          data-[state=active]:text-gray-900
-          data-[state=active]:shadow-sm
-        "
-      >
-        SELL
-      </TabsTrigger>
-    </TabsList>
-
- 
-    <TabsContent value="BUY" className="mt-4">
-      <Tabs defaultValue="LIMIT">
-        {/* LIMIT / MARKET / STOP */}
-        <TabsList   className="
-    mb-4
-    inline-flex
-    w-full
-    rounded-full
-    border border-gray-200
-    bg-gray-50
-    p-1
-    gap-2
-
-  
-  "
->
-<TabsTrigger
-  value="LIMIT"
-  className="
-    rounded-full px-2.5 py-2 text-sm font-semibold
-    text-gray-400
-    bg-transparent
-
-    data-[state=active]:bg-white
-    data-[state=active]:text-gray-900
-    data-[state=active]:shadow-sm
-
-    hover:bg-transparent
-    focus:bg-transparent
-  "
->
-  LIMIT
-</TabsTrigger>
-
-
-
-          <TabsTrigger
-            value="MARKET"
-          className="
-    rounded-full px-2 py-2 text-sm font-semibold
-    text-gray-400
-    bg-transparent
-
-    data-[state=active]:bg-white
-    data-[state=active]:text-gray-900
-    data-[state=active]:shadow-sm
-
-    hover:bg-transparent
-    focus:bg-transparent
-  "
-          >
-            MARKET
-          </TabsTrigger>
-
-          <TabsTrigger
-            value="STOP_MARKET"
-     className="
-    rounded-full px-2 py-2 text-sm font-semibold
-    text-gray-400
-    bg-transparent
-
-    data-[state=active]:bg-white
-    data-[state=active]:text-gray-900
-    data-[state=active]:shadow-sm
-
-    hover:bg-transparent
-    focus:bg-transparent
-  "
-          >
-           STOP MARKET
-          </TabsTrigger>
-        </TabsList>
-
-
-        
-      </Tabs>
-    </TabsContent>
-
-
-    <TabsContent value="SELL" className="mt-4">
-     <Tabs defaultValue="LIMIT">
+  {/* Header Row */}
+  <Tabs defaultValue="TRADES" className="w-full">
+    <div className="flex items-center justify-between">
       
-        <TabsList   className="
-    mb-4
-    inline-flex
-    w-auto
-    rounded-full
-    border border-gray-200
-    bg-gray-50
-    p-1
-    gap-2
-  "
->
-<TabsTrigger
-  value="LIMIT"
-  className="
-    rounded-full px-6 py-2 text-sm font-semibold
-    text-gray-400
-    bg-transparent
-
-    data-[state=active]:bg-white
-    data-[state=active]:text-gray-900
-    data-[state=active]:shadow-sm
-
-    hover:bg-transparent
-    focus:bg-transparent
-  "
->
-  LIMIT
-</TabsTrigger>
-
-
-
-          <TabsTrigger
-            value="MARKET"
+      {/* Tabs */}
+      <TabsList
+        className="
+          flex rounded-full border border-gray-200 
+          bg-gray-50 
+        "
+      >
+        <TabsTrigger
+          value="POSITION"
           className="
-    rounded-full px-6 py-2 text-sm font-semibold
-    text-gray-400
-    bg-transparent
+            rounded-full px-6 py-2 text-sm font-medium
+            text-gray-400
+            data-[state=active]:bg-white
+            data-[state=active]:text-gray-900
+            data-[state=active]:shadow
+          "
+        >
+          Positions
+        </TabsTrigger>
 
-    data-[state=active]:bg-white
-    data-[state=active]:text-gray-900
-    data-[state=active]:shadow-sm
+        <TabsTrigger
+          value="ORDER"
+          className="
+            rounded-full px-6 py-2 text-sm font-medium
+            text-gray-400
+            data-[state=active]:bg-white
+            data-[state=active]:text-gray-900
+            data-[state=active]:shadow
+          "
+        >
+          Orders
+        </TabsTrigger>
 
-    hover:bg-transparent
-    focus:bg-transparent
-  "
-          >
-            MARKET
-          </TabsTrigger>
-
-          <TabsTrigger
-            value="STOP_MARKET"
-     className="
-    rounded-full px-6 py-2 text-sm font-semibold
-    text-gray-400
-    bg-transparent
-
-    data-[state=active]:bg-white
-    data-[state=active]:text-gray-900
-    data-[state=active]:shadow-sm
-
-    hover:bg-transparent
-    focus:bg-transparent
-  "
-          >
-           STOP MARKET
-          </TabsTrigger>
-        </TabsList>
-
-
+        <TabsTrigger
+          value="TRADES"
+          className="
+            rounded-full px-6 py-2 text-sm font-medium
+            text-gray-400
+            data-[state=active]:bg-white
+            data-[state=active]:text-gray-900
+            data-[state=active]:shadow
+          "
+        >
+          Trades
+        </TabsTrigger>
         
-      </Tabs>
-    </TabsContent>
+      </TabsList>
+
+
+<div className="relative w-[30%]">
+
+
+  <Input
+    placeholder="Search"
+    className="
+      h-9
+      rounded-full
+      pl-9 pr-4
+      text-sm
+    "
+  />
+</div>
+
+
+    </div>
+<TabsContent value='POSITION'>
+   
+</TabsContent>
+<TabsContent value='ORDER'>
+
+</TabsContent>
+
+<TabsContent value='TRADES'>
+
+</TabsContent>
+
   </Tabs>
+</div>
+
   )
 }
 

@@ -3,6 +3,7 @@ import type { User } from "../types/user.js";
 import { OrderData } from "../validators/orderSchema.js";
 import { timeStamp } from "console";
 import { prisma } from "@repo/db";
+import axios from "axios";
 
 export const OrderService=(data:OrderData,user:User)=>{
   try{
@@ -49,4 +50,24 @@ export const getUserOrder=async(user:User)=>{
    }catch(error){
       throw error
    }
+}
+
+
+
+
+const BASE_URL = "https://testnet.binance.vision"
+
+export const getMarketPrice = async (symbol: string): Promise<number> => {
+   try{
+ const res = await axios.get(
+    `${BASE_URL}/api/v3/ticker/price?symbol=${symbol}`
+  )
+  console.log('getting the market price',res.data.price)
+
+  return Number(res.data.price)
+   }catch(error:any){
+      console.log(error)
+      throw error
+   }
+ 
 }
