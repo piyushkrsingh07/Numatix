@@ -8,9 +8,10 @@ import { ThemeContextProvider } from "./ThemeProvider";
 
 export const AppContextProvider=combineContext(
     AuthContextProvider,
+    SymbolContextProvider,
   SocketContextProvider,
   ThemeContextProvider,
-  SymbolContextProvider,
+
 
   PriceContextProvider
 )

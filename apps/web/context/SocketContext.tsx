@@ -5,6 +5,7 @@ import { createContext, useState } from "react"
 import { getCookie } from "cookies-next";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SocketProviderProps {
     children?:React.ReactNode
@@ -15,9 +16,11 @@ export interface ISocketContext {
 }
 const SocketContext=createContext<ISocketContext | undefined>(undefined)
 
+
 export const SocketContextProvider=({children}:SocketProviderProps)=>{
  const [socketInstance,setSocketInstance]=useState<Socket|null>(null)
  const {auth}=useAuth()
+   const queryClient=useQueryClient()
  const cookieToken = auth?.token
 
  useEffect(()=>{
@@ -38,6 +41,8 @@ socket.on("disconnect",()=>{
 socket.on("ORDER_UPDATE",(data)=>{
     console.log(data,'delho data jo ayaya')
     toast.success("order successfully placed")
+     queryClient.invalidateQueries({queryKey:[`getSymbolPosition`]})
+     queryClient.invalidateQueries({queryKey:[`getUserOrder-${auth?.user?.email}`]})
 })
 socket.on("ORDER_ERROR",(data)=>{
     console.log(data,'ERROR AAYA JO')

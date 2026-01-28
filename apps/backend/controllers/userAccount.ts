@@ -197,7 +197,20 @@ const calculatePosition = (trades: NormalizedTrade[]) => {
 const userTrades=async(req:Request,res:Response)=>{
   try{
      const user=req.user as User
-     const symbol='BTCUSDT'
+       
+
+const rawSymbol =req.query.symbol
+if (!rawSymbol || Array.isArray(rawSymbol)) {
+  return res.status(400).json({ message: "symbol query param is required" });
+}
+
+// At this point TS knows it is string | ParsedQs
+if (typeof rawSymbol !== "string") {
+  return res.status(400).json({ message: "symbol must be a string" });
+}
+
+   
+const symbol: string = rawSymbol;
 
      const tradeResponse=await userTradesFromBinance(user,symbol)
      console.log(tradeResponse,'see trading response')

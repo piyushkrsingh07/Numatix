@@ -42,7 +42,16 @@ export const getUserOrder=async(user:User)=>{
       const getOrder=await prisma.orderEvent.findMany({
          where:{
             userId:id
-         }
+         },
+         include: {
+    command: {
+      select: {
+        symbol: true,
+        side:true,
+        type:true
+      },
+    },
+  },
       })
 
       console.log('see order of the user',getOrder)
