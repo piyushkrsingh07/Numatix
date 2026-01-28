@@ -7,6 +7,7 @@ import { CandlestickSeries, createChart, IChartApi, ISeriesApi, UTCTimestamp } f
 import { useBinanceWebSocket } from '@/hooks/useWebSocket';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { usePrice } from '@/hooks/usePrice';
+import { useTheme } from '@/hooks/useTheme';
 
 
 const transformKlinesToChartData = (
@@ -164,17 +165,17 @@ const showTime =
         layout: {
     background: {
      
-      color: '#ffffff', 
+  color: isDark ? '#1f2937' : '#ffffff',
     },
-    textColor: '#111827',
+       textColor: isDark ? '#e5e7eb' : '#111827',
   },
 
   grid: {
     vertLines: {
-      color: '#e5e7eb',
+       color: isDark ? '#374151' : '#e5e7eb',
     },
     horzLines: {
-      color: '#e5e7eb',
+    color: isDark ? '#374151' : '#e5e7eb',
     },
   },
     });
@@ -203,34 +204,48 @@ const showTime =
     }
   }, [height]);
 
+  const {isDark}=useTheme()
   return (
-<div className="w-full h-full rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+<div className={`w-full h-full rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
   <div className="mb-4 flex items-start justify-between">
 
     <div>
-      <div className="text-sm font-semibold text-gray-900">
+      <div className={`${isDark ? 'text-white' : 'text-gray-900'} text-sm font-semibold`}>
        {coinId}
       </div>
 
       <div className="mt-1 flex items-center gap-3">
-        <div className="text-2xl lg:text-[1.7rem] xl:text-3xl font-bold text-gray-900">
+        <div className={`${isDark ? 'text-white' : 'text-gray-900'} text-2xl lg:text-[1.7rem] xl:text-3xl font-bold`}>
           ${Number.isFinite(close) ? close.toFixed(4) : 0}
         </div>
 
-        <div className={`flex items-center rounded-full  px-2.5 py-0.5 text-sm font-semibold ${chartCurrentPrice >= 0 ? "text-green-600 bg-green-100" : "text-red-600 bg-red-300"}`}>
+        <div className={`flex items-center rounded-full px-2.5 py-0.5 text-sm font-semibold ${
+          chartCurrentPrice >= 0
+            ? "text-green-600 bg-green-100 dark:bg-green-900 dark:text-green-400"
+            : "text-red-600 bg-red-300 dark:bg-red-900 dark:text-red-400"
+        }`}>
       {formatted}
         </div>
       </div>
     </div>
 
   
-    <div className=" hidden md:flex  items-center rounded-full border border-gray-200 bg-white p-1 lg:-ml-3">
+    <div className={`hidden md:flex items-center rounded-full border p-1 lg:-ml-3 ${isDark ? 'border-white bg-gray-700' : 'border-gray-200 bg-white'}`}>
       {NEW_PERIOD_BUTTONS.map(({ value, label }) => (
         <button
           key={value}
           disabled={loading}
           onClick={() => handlePeriodChange(value)}
-          className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${period === value? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-100"}`}
+className={`rounded-full px-3 py-1.5 text-xs font-medium transition
+            ${period === value
+              ? isDark
+                ? "bg-gray-900 text-white"
+                : "bg-gray-900 text-white"
+              : isDark
+                ? "text-white hover:bg-gray-700"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+
        
         >
           {label}
@@ -245,13 +260,13 @@ const showTime =
     disabled={loading}
     
   >
-    <SelectTrigger className="w-full rounded-full border-gray-200 bg-white text-xs font-medium">
+    <SelectTrigger className={`w-full rounded-full ${isDark ? 'border-gray-600 bg-gray-700 text-gray-200' : 'border-gray-200 bg-white text-gray-900'} text-xs font-medium`}>
       <SelectValue placeholder="Select period" />
     </SelectTrigger>
 
-    <SelectContent className='bg-white'>
+    <SelectContent className={`${isDark ? 'bg-gray-700 text-gray-200' : 'bg-white'}`}>
       {NEW_PERIOD_BUTTONS.map(({ value, label }) => (
-        <SelectItem key={value} value={value}>
+        <SelectItem key={value} value={value} className={`${isDark ? 'text-gray-200' : ''}`}>
           {label}
         </SelectItem>
       ))}
@@ -262,7 +277,7 @@ const showTime =
   </div>
 
 
-  <div className="mb-2 text-xs font-medium text-gray-500">
+  <div className={`${isDark ? 'text-gray-400' : 'text-gray-500'} mb-2 text-xs font-medium`}>
     Period:
     {isConnected && (
       <span className="ml-2 text-green-500">● Live</span>
@@ -272,7 +287,7 @@ const showTime =
 
   <div
     ref={chartContainerRef}
-    className="mt-4 w-full rounded-xl "
+    className={`mt-4 w-full rounded-xl ${isDark ? 'bg-gray-800' : ''}`}
     style={{ height }}
   />
 </div>

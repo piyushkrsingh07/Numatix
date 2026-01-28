@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/hooks/useAuth'
 import { useGetUserAccount } from '@/hooks/useGetUserAccount'
+import { useTheme } from '@/hooks/useTheme'
 import { LogOutIcon, Wallet } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
@@ -21,13 +22,15 @@ const HeaderSection = () => {
     await logout()
     toast.success('Successfully loggedout')
   }
+
+  const {isDark,setIsDark}=useTheme()
   return (
-    <header className="w-full rounded-2xl border border-gray-100 bg-white px-6 py-3 shadow-sm">
+    <header className={`w-full rounded-2xl border border-gray-100 px-6 py-3 shadow-sm ${isDark?'bg-gray-800':'bg-white'}`}>
       <div className="flex items-center justify-between">
         {/* Left: Logo */}
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-full bg-gradient-to-br from-gray-200 to-gray-400 shadow-inner" />
-          <span className="text-lg font-semibold tracking-wide text-gray-900">
+          <span className={`text-lg font-semibold tracking-wide  ${isDark?'text-white':'text-gray-900'}`}>
             NUMATIX
           </span>
         </div>
@@ -42,7 +45,7 @@ const HeaderSection = () => {
           </button>
 
           {/* Theme Button */}
-          <button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm hover:bg-gray-50">
+          <button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm hover:bg-gray-50" onClick={()=>setIsDark(prev=>!prev)}>
             <svg
               className="h-5 w-5 text-gray-700"
               fill="none"
@@ -96,7 +99,7 @@ const HeaderSection = () => {
           text-2xl
         "
       >
-        {String(auth?.user?.email?.[0]).toUpperCase()}
+        {String(auth?.user?.email?.[0] || "P").toUpperCase() }
       </AvatarFallback>
     </Avatar>
   </button>

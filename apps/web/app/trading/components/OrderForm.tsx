@@ -168,7 +168,7 @@ const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
               />
             </div>
      <div className="col-span-1 rounded-xl border border-white/10 bg-white/5 px-3 py-3">
-       <Label htmlFor="total">Total</Label>
+       <Label htmlFor="total" className={`${isDark?"text-white":""}`}>Total</Label>
        <div className="relative flex items-center">
 
        
@@ -177,7 +177,7 @@ const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
                 type="number"
                 readOnly
                 placeholder="0.00"
-                  className="cursor-not-allowed opacity-70 mt-1"
+                  className={`cursor-not-allowed opacity-70 mt-1 ${isDark?"text-white border-none bg-gray-800":""}`}
     
                 value={childValue === 'LIMIT'?Number(currentPrice || 0 )*Number(currentQuantity || 0):Number(currentPrice || 0) *Number(currentQuantity || 0) }
               />
@@ -200,21 +200,7 @@ const OrderForm = ({parentValue,childValue}:OrderFormProps) => {
        
   
 
-        
-          <div className="flex items-center justify-between">
-               <div className="flex items-center gap-2 text-sm font-semibold text-white">
-              <span className="h-4 w-4 rounded border border-white/30" />
-              30.16 USD
-            </div>
-
-            <button
-              type="button"
-              className="rounded-full bg-purple-500/20 px-4 py-1.5 text-xs font-medium text-purple-400"
-            >
-              Add funds
-            </button>
-          </div>
-
+    
           {/* SUBMIT */}
           <Button
             type="submit"
