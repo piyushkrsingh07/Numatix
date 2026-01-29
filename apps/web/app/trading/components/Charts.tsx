@@ -38,7 +38,7 @@ const Charts = React.memo(({
   const lastCandleTimeRef = useRef<UTCTimestamp | null>(null);
 
     const {setClosePrice}=usePrice()
-
+const {isDark}=useTheme()
 
 
 
@@ -204,7 +204,26 @@ const showTime =
     }
   }, [height]);
 
-  const {isDark}=useTheme()
+  useEffect(() => {
+  if (!chartRef.current) return;
+
+  chartRef.current.applyOptions({
+    layout: {
+      background: { color: isDark ? '#1f2937' : '#ffffff' },
+      textColor: isDark ? '#e5e7eb' : '#111827',
+    },
+    grid: {
+      vertLines: {
+        color: isDark ? '#374151' : '#e5e7eb',
+      },
+      horzLines: {
+        color: isDark ? '#374151' : '#e5e7eb',
+      },
+    },
+  });
+}, [isDark]);
+
+  
   return (
 <div className={`w-full h-full rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
   <div className="mb-4 flex items-start justify-between">
